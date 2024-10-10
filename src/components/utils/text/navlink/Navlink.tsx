@@ -1,5 +1,5 @@
 "use client";
-import { colors } from "@/lib";
+import { colors, fonts } from "@/lib";
 import { Text, TextProps } from "@chakra-ui/react";
 import Link from "next/link";
 import { FC } from "react";
@@ -13,7 +13,7 @@ const Navlink: FC<NavlinkProps> = ({ href, children, ...props }) => {
   return (
     <Link href={href}>
       <Text
-        fontFamily="inter"
+        fontFamily={fonts.lato}
         fontSize="1rem"
         fontWeight="600"
         lineHeight="24px"

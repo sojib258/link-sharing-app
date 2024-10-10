@@ -1,6 +1,5 @@
 const Fonts = {
-  marcellus: "Marcellus, serif",
-  inter: "Inter, sans-serif",
+  lato: "Lato, sans-serif",
 };
 
 export default Fonts;
