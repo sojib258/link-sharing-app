@@ -13,7 +13,7 @@ const Navlink: FC<NavlinkProps> = ({ href, children, ...props }) => {
   return (
     <Link href={href}>
       <Text
-        fontFamily={fonts.lato}
+        fontFamily={fonts.poppins}
         fontSize="1rem"
         fontWeight="600"
         lineHeight="24px"

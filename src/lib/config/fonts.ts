@@ -1,5 +1,5 @@
 const Fonts = {
-  lato: "Lato, sans-serif",
+  poppins: "Poppins, sans-serif",
 };
 
 export default Fonts;

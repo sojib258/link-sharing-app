@@ -5,7 +5,7 @@ import Preview from "./components/Preview";
 
 const Header = () => {
   return (
-    <Container>
+    <Container mb="2rem">
       <LogoPart />
       <MenuPart />
       <Preview />

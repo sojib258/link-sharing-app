@@ -10,7 +10,7 @@ type TextNormalProps = TextProps & {
 const TextNormal: FC<TextNormalProps> = ({ children, ...props }) => {
   return (
     <Text
-      fontFamily={fonts?.lato}
+      fontFamily={fonts?.poppins}
       fontSize="1rem"
       fontWeight="400"
       color={colors?.textColor}
