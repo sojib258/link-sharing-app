@@ -1,10 +1,10 @@
 "use client";
 import { colors, fonts } from "@/lib";
 import { Text, TextProps } from "@chakra-ui/react";
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 
 type TextNormalProps = TextProps & {
-  children: string;
+  children: string | ReactNode;
 };
 
 const TextNormal: FC<TextNormalProps> = ({ children, ...props }) => {

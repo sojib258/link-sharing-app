@@ -11,8 +11,10 @@ import {
 } from "react-icons/fa";
 import { FaLink } from "react-icons/fa6";
 import { FiArrowRight } from "react-icons/fi";
-import { IoLogoYoutube } from "react-icons/io";
+import { HiBars2 } from "react-icons/hi2";
+import { IoIosArrowDown, IoLogoYoutube } from "react-icons/io";
 import { IoAdd } from "react-icons/io5";
+import { MdOutlineCloudUpload } from "react-icons/md";
 import { PiEyeBold } from "react-icons/pi";
 
 export type IconNameOptions =
@@ -27,7 +29,10 @@ export type IconNameOptions =
   | "facebook"
   | "gmail"
   | "instagram"
-  | "arrow-right";
+  | "arrow-right"
+  | "bar-two"
+  | "down-arrow"
+  | "upload";
 
 type IconProps = {
   size?: number;
@@ -49,6 +54,9 @@ const icons: { [key in IconNameOptions]: FC<{ size: number; color: string }> } =
     gmail: FaEnvelope,
     instagram: BsInstagram,
     "arrow-right": FiArrowRight,
+    "bar-two": HiBars2,
+    "down-arrow": IoIosArrowDown,
+    upload: MdOutlineCloudUpload,
   };
 
 const Icon: FC<IconProps> = ({ name, ...props }) => {

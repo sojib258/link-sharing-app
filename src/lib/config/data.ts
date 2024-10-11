@@ -1,61 +1,143 @@
-import { IconNameOptions } from "@/components/utils/icon/Icon";
+import { PlatformCartType } from "@/lib/types/platformCartType";
+export const addedLinks: PlatformCartType[] = [
+  {
+    platform: "github",
+    label: "GitHub",
+    link: "https://github.com/sojib258",
+    cardColor: "#000",
+    texxtColor: "#fff",
+    iconColor: "#fff",
+  },
+  {
+    platform: "youtube",
+    label: "YouTube",
+    link: "https://www.youtube.com/",
+    cardColor: "#ef383a",
+    texxtColor: "#fff",
+    iconColor: "#fff",
+  },
+  {
+    platform: "github",
+    label: "GitHub",
+    link: "https://github.com/sojib258",
+    cardColor: "#000",
+    texxtColor: "#fff",
+    iconColor: "#fff",
+  },
+  {
+    platform: "github",
+    label: "GitHub",
+    link: "https://github.com/sojib258",
+    cardColor: "#000",
+    texxtColor: "#fff",
+    iconColor: "#fff",
+  },
+  {
+    platform: "youtube",
+    label: "YouTube",
+    link: "https://www.youtube.com/",
+    cardColor: "#ef383a",
+    texxtColor: "#fff",
+    iconColor: "#fff",
+  },
+  {
+    platform: "github",
+    label: "GitHub",
+    link: "https://github.com/sojib258",
+    cardColor: "#000",
+    texxtColor: "#fff",
+    iconColor: "#fff",
+  },
+];
 
-type AddedLink = {
-  platform: IconNameOptions; // Enforce platform to be one of IconNameOptions
-  label: string;
-  link: string;
-  cardColor: string;
-  texxtColor: string;
-  iconColor: string;
+export const selectOptions: PlatformCartType[] = [
+  {
+    platform: "github",
+    label: "GitHub",
+    link: "https://github.com/sojib258",
+    cardColor: "#000",
+    texxtColor: "#fff",
+    iconColor: "#fff",
+  },
+  {
+    platform: "youtube",
+    label: "YouTube",
+    link: "https://www.youtube.com/",
+    cardColor: "#ef383a",
+    texxtColor: "#fff",
+    iconColor: "#fff",
+  },
+  {
+    platform: "github",
+    label: "GitHub",
+    link: "https://github.com/sojib258",
+    cardColor: "#000",
+    texxtColor: "#fff",
+    iconColor: "#fff",
+  },
+  {
+    platform: "github",
+    label: "GitHub",
+    link: "https://github.com/sojib258",
+    cardColor: "#000",
+    texxtColor: "#fff",
+    iconColor: "#fff",
+  },
+  {
+    platform: "youtube",
+    label: "YouTube",
+    link: "https://www.youtube.com/",
+    cardColor: "#ef383a",
+    texxtColor: "#fff",
+    iconColor: "#fff",
+  },
+  {
+    platform: "github",
+    label: "GitHub",
+    link: "https://github.com/sojib258",
+    cardColor: "#000",
+    texxtColor: "#fff",
+    iconColor: "#fff",
+  },
+];
+
+export const linkOverView = {
+  title: "Customize your links",
+  description:
+    "Add/edit/remove links below and then share all your profile with the world.",
 };
 
-export const addedLinks: AddedLink[] = [
+export const profileOverView = {
+  title: "Profile Details",
+  description: "Add your details to create a personal touch to your profile.",
+};
+
+export const formFields = [
   {
-    platform: "github",
-    label: "GitHub",
-    link: "https://github.com/sojib258",
-    cardColor: "#000",
-    texxtColor: "#fff",
-    iconColor: "#fff",
+    label: "First Name",
+    type: "text",
+    placeholder: "Jhon",
+    isRequired: true,
+    errorMsg: "first name is required",
+    fieldKey: "firstname", // This key must match a key in formData
+    name: "firstname",
   },
   {
-    platform: "youtube",
-    label: "YouTube",
-    link: "https://www.youtube.com/",
-    cardColor: "#ef383a",
-    texxtColor: "#fff",
-    iconColor: "#fff",
+    label: "Last Name",
+    type: "text",
+    placeholder: "Doe",
+    isRequired: true,
+    errorMsg: "last name is required",
+    fieldKey: "lastname", // This key must match a key in formData
+    name: "lastname",
   },
   {
-    platform: "github",
-    label: "GitHub",
-    link: "https://github.com/sojib258",
-    cardColor: "#000",
-    texxtColor: "#fff",
-    iconColor: "#fff",
-  },
-  {
-    platform: "github",
-    label: "GitHub",
-    link: "https://github.com/sojib258",
-    cardColor: "#000",
-    texxtColor: "#fff",
-    iconColor: "#fff",
-  },
-  {
-    platform: "youtube",
-    label: "YouTube",
-    link: "https://www.youtube.com/",
-    cardColor: "#ef383a",
-    texxtColor: "#fff",
-    iconColor: "#fff",
-  },
-  {
-    platform: "github",
-    label: "GitHub",
-    link: "https://github.com/sojib258",
-    cardColor: "#000",
-    texxtColor: "#fff",
-    iconColor: "#fff",
+    label: "Email",
+    type: "email",
+    placeholder: "example@gmail.com",
+    isRequired: false,
+    errorMsg: "",
+    fieldKey: "email", // This key must match a key in formData
+    name: "email",
   },
 ];
