@@ -35,10 +35,11 @@ const TextInput: FC<TextInputProps> = ({
       isRequired={isRequired}
       display="flex"
       h="full"
-      alignItems="center"
+      alignItems={{ base: "flex-start", md: "center" }}
+      flexDir={{ base: "column", md: "row" }}
       {...props}
     >
-      <FormLabel minW="10rem">{label}</FormLabel>
+      <FormLabel minW={{ base: "4rem", md: "10rem" }}>{label}</FormLabel>
       <Input
         value={value}
         type={type}

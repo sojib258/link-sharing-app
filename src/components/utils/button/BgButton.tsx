@@ -2,11 +2,11 @@ import { colors } from "@/lib";
 import { Button, ButtonProps } from "@chakra-ui/react";
 import { FC } from "react";
 
-type SaveButtonProps = ButtonProps & {
+type BgButtonProps = ButtonProps & {
   children: string;
 };
 
-const SaveButton: FC<SaveButtonProps> = ({ children, ...props }) => {
+const BgButton: FC<BgButtonProps> = ({ children, ...props }) => {
   return (
     <Button
       variant="outline"
@@ -24,4 +24,4 @@ const SaveButton: FC<SaveButtonProps> = ({ children, ...props }) => {
   );
 };
 
-export default SaveButton;
+export default BgButton;

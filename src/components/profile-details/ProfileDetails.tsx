@@ -1,5 +1,5 @@
 "use client";
-import { FlexBox, OverView, SaveButton, TextInput } from "@/components";
+import { BgButton, FlexBox, OverView, TextInput } from "@/components";
 import LeftSection from "@/components/links-page/components/LeftSection";
 import { formFields, profileOverView } from "@/lib/config/data";
 import { Box, Grid, GridItem, GridProps } from "@chakra-ui/react";
@@ -68,7 +68,7 @@ const ProfileDetails: FC<ProfileDetailsProps> = ({ ...props }) => {
           // borderTop={`1px solid ${colors.borderColor}`}
           py="24px"
         >
-          <SaveButton>Save</SaveButton>
+          <BgButton>Save</BgButton>
         </FlexBox>
       </GridItem>
     </Grid>

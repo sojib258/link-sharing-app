@@ -141,3 +141,10 @@ export const formFields = [
     name: "email",
   },
 ];
+
+export const personalInfo = {
+  data: {
+    name: "Jhone Doe",
+    email: "example@gamil.com",
+  },
+};

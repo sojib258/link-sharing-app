@@ -1,5 +1,5 @@
 "use client";
-import { AddButton, FlexBox, OverView, SaveButton } from "@/components";
+import { AddButton, BgButton, FlexBox, OverView } from "@/components";
 import { linkOverView } from "@/lib/config/data";
 import { Box, Grid, GridItem, GridProps } from "@chakra-ui/react";
 import { FC } from "react";
@@ -40,7 +40,7 @@ const LinksPage: FC<LinksPageProps> = ({ ...props }) => {
           // borderTop={`1px solid ${colors.borderColor}`}
           py="24px"
         >
-          <SaveButton>Save</SaveButton>
+          <BgButton>Save</BgButton>
         </FlexBox>
       </GridItem>
     </Grid>

@@ -1,6 +1,6 @@
 export { default as AddButton } from "./button/AddButton";
+export { default as BgButton } from "./button/BgButton";
 export { default as IconButton } from "./button/IconButton";
-export { default as SaveButton } from "./button/SaveButton";
 export { default as TextButton } from "./button/TextButton";
 export { default as FlexBox } from "./flex-box/FlexBox";
 export { default as FullBox } from "./flex-box/FullBox";

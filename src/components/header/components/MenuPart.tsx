@@ -1,6 +1,7 @@
 import { FlexBox, IconButton, LinkIcon, UserIcon } from "@/components";
 import { colors } from "@/lib";
 import { Box, Flex, FlexProps } from "@chakra-ui/react";
+import Link from "next/link";
 import { FC } from "react";
 import { FaRegUserCircle } from "react-icons/fa";
 import { FaLink } from "react-icons/fa6";
@@ -11,20 +12,24 @@ const MenuPart: FC<MenuPartProps> = ({ ...props }) => {
   return (
     <Flex justifyContent="center" alignItems="center" {...props}>
       {/* This button will show in tablet and desktop view*/}
-      <IconButton
-        display={{ base: "none", md: "flex" }}
-        color={colors.textColor}
-        leftIcon={<FaLink fontSize="1.3rem" />}
-      >
-        Links
-      </IconButton>
-      <IconButton
-        display={{ base: "none", md: "flex" }}
-        color={colors.textColor}
-        leftIcon={<FaRegUserCircle fontSize="1.2rem" />}
-      >
-        Profile Details
-      </IconButton>
+      <Link href="/links">
+        <IconButton
+          display={{ base: "none", md: "flex" }}
+          color={colors.textColor}
+          leftIcon={<FaLink fontSize="1.3rem" />}
+        >
+          Links
+        </IconButton>
+      </Link>
+      <Link href="./profile-details">
+        <IconButton
+          display={{ base: "none", md: "flex" }}
+          color={colors.textColor}
+          leftIcon={<FaRegUserCircle fontSize="1.2rem" />}
+        >
+          Profile Details
+        </IconButton>
+      </Link>
 
       {/* This is show mobile view */}
       <FlexBox
@@ -43,7 +48,9 @@ const MenuPart: FC<MenuPartProps> = ({ ...props }) => {
           transition=".3s"
           _hover={{ backgroundColor: colors.lightPrimary }}
         >
-          <LinkIcon />
+          <Link href="/links">
+            <LinkIcon />
+          </Link>
         </Box>
         <Box
           display={{ base: "flex", md: "none" }}
@@ -55,7 +62,9 @@ const MenuPart: FC<MenuPartProps> = ({ ...props }) => {
           transition=".3s"
           _hover={{ backgroundColor: colors.lightPrimary }}
         >
-          <UserIcon />
+          <Link href="/profile-details">
+            <UserIcon />
+          </Link>
         </Box>
       </FlexBox>
     </Flex>

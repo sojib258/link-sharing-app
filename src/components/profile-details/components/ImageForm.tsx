@@ -1,18 +1,52 @@
-import { Icon, TextNormal } from "@/components/utils";
-import { colors } from "@/lib";
 import {
-  Box,
   FormControl,
   FormControlProps,
   FormLabel,
   Image,
   Input,
-  Stack,
 } from "@chakra-ui/react";
 import { FC, useState } from "react";
+import ImageOverlay from "./ImageOverlay";
+import PreviewImageContainer from "./PreviewImageContainer";
 type ImageFormProps = FormControlProps & {
   isRequired?: boolean;
   label?: string;
+};
+
+const styleOne = {
+  position: "absolute",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  background: "rgba(0, 0, 0, 0.3)",
+  color: "white",
+  cursor: "pointer",
+};
+
+const labelChangePicture = {
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  background: "rgba(0, 0, 0, 0.3)",
+  color: "white",
+  cursor: "pointer",
+};
+
+const labelUploadPicture = {
+  width: "100%",
+  height: "100%",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  cursor: "pointer",
 };
 
 const ImageForm: FC<ImageFormProps> = ({ isRequired, label, ...props }) => {
@@ -66,15 +100,7 @@ const ImageForm: FC<ImageFormProps> = ({ isRequired, label, ...props }) => {
       >
         <FormLabel minW="10rem">{label}</FormLabel>
         {/* <Box bg="red" textAlign="center"> */}
-        <Box
-          position="relative"
-          w="150px"
-          h="150px"
-          //   mx="auto"
-          borderRadius="1.5rem"
-          overflow="hidden"
-          bg={colors?.lightPrimary}
-        >
+        <PreviewImageContainer>
           {imagePreview ? (
             <>
               <Image
@@ -85,24 +111,10 @@ const ImageForm: FC<ImageFormProps> = ({ isRequired, label, ...props }) => {
               <label
                 style={{
                   position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  background: "rgba(0, 0, 0, 0.3)",
-                  color: "white",
-                  cursor: "pointer",
+                  ...labelChangePicture,
                 }}
               >
-                <Stack h="full" justifyContent="center" alignItems="center">
-                  <Icon size={24} name="upload" color={colors?.white} />
-                  <TextNormal fontSize=".85rem" color={colors?.white}>
-                    Change Picture
-                  </TextNormal>
-                </Stack>
+                <ImageOverlay label="Change Picture" />
                 <Input
                   type="file"
                   accept="image/*"
@@ -112,20 +124,8 @@ const ImageForm: FC<ImageFormProps> = ({ isRequired, label, ...props }) => {
               </label>
             </>
           ) : (
-            <label
-              style={{
-                width: "100%",
-                height: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                cursor: "pointer",
-              }}
-            >
-              <Stack h="full" justifyContent="center" alignItems="center">
-                <Icon size={24} name="upload" />
-                <TextNormal fontSize=".85rem">Upload Picture</TextNormal>
-              </Stack>
+            <label style={labelUploadPicture}>
+              <ImageOverlay label="Upload Picture" />
               <Input
                 type="file"
                 accept="image/*"
@@ -135,7 +135,7 @@ const ImageForm: FC<ImageFormProps> = ({ isRequired, label, ...props }) => {
             </label>
           )}
           {/* Input to select the image */}
-        </Box>
+        </PreviewImageContainer>
       </FormControl>
     </>
   );
