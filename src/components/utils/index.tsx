@@ -6,6 +6,7 @@ export { default as FlexBox } from "./flex-box/FlexBox";
 export { default as FullBox } from "./flex-box/FullBox";
 export * from "./icon";
 export { default as Icon } from "./icon/Icon";
+export { default as LabelInput } from "./input/LabelInput";
 export { default as LinkInput } from "./input/LinkInput";
 export { default as SearchInput } from "./input/SearchInput";
 export { default as TextInput } from "./input/TextInput";

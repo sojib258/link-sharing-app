@@ -9,6 +9,8 @@ import LinkCart from "./components/LinkCart";
 type LinksPageProps = GridProps & {};
 
 const LinksPage: FC<LinksPageProps> = ({ ...props }) => {
+  // const {} = useGetAllDevlinksQuery();
+
   return (
     <Grid
       templateColumns="repeat(5, 1fr)"

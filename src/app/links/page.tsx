@@ -1,11 +1,10 @@
 import { PageLayout } from "@/components";
-import Register from "@/components/register/Register";
+import LinksPage from "@/components/links-page/LinksPage";
 
 export default function Home() {
   return (
     <PageLayout>
-      {/* <Login /> */}
-      <Register />
+      <LinksPage />
     </PageLayout>
   );
 }
