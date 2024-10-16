@@ -4,7 +4,7 @@ import { BgButton, LabelInput, TextNormal } from "@/components";
 import { colors } from "@/lib";
 
 import { login } from "@/store/slices/authSlice";
-import { Box, Center } from "@chakra-ui/react";
+import { Alert, AlertIcon, Box, Center } from "@chakra-ui/react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
@@ -34,13 +34,14 @@ const Login = () => {
   );
 
   const handleInputChange = (key: string, value: string) => {
+    setErrorMessage("");
     setFormData((prev) => ({
       ...prev,
       [key]: value,
     }));
   };
 
-  const handleLoginData = async () => {
+  const handleLogin = async () => {
     try {
       setLoading(true);
       const responsePromise = axios.post(`${URL}/auth/local`, {
@@ -60,10 +61,10 @@ const Login = () => {
 
       Cookies.set(TOKEN_NAME, response?.data?.jwt, { expires: 7 });
       dispatch(
-        login({ userId: response?.data?.user?.id, token: response.data.jwt })
+        login({ userId: response?.data?.user?.id, token: response?.data?.jwt })
       );
-
       setLoading(false);
+      router.push("/");
     } catch (error: any) {
       setLoading(false);
       console.log("Error", error);
@@ -75,9 +76,23 @@ const Login = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      return router.push("/links");
+      return router.push("/");
     }
-  });
+  }, [isAuthenticated, router]);
+
+  // Workable Enter Button for Form Submit
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Enter") {
+        handleLogin();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleLogin]);
 
   return (
     <>
@@ -86,7 +101,7 @@ const Login = () => {
           <TextNormal fontSize="2.4rem" fontWeight="600" mb="2rem">
             Sign In
           </TextNormal>
-          <form style={{ width: "100%" }} onSubmit={handleLoginData}>
+          <form style={{ width: "100%" }}>
             <LabelInput
               type="text"
               value={formData?.eamilOrUserName}
@@ -105,8 +120,26 @@ const Login = () => {
               handleChange={handleInputChange}
               isRequired={true}
             />
+            {errorMessage && (
+              <Alert
+                color={colors?.danger}
+                bg="transparent"
+                my=".4rem"
+                status="error"
+                p={0}
+                mb="1rem"
+              >
+                <AlertIcon fontSize="8px" />
+                {errorMessage}
+              </Alert>
+            )}
             <Box w="full" h="auto">
-              <BgButton type="submit" w="full" bg={colors?.primary}>
+              <BgButton
+                isLoading={loading}
+                onClick={handleLogin}
+                w="full"
+                bg={colors?.primary}
+              >
                 Log In
               </BgButton>
             </Box>

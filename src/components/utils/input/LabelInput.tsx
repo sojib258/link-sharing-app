@@ -1,7 +1,12 @@
-import { FormControl, FormLabel, Input, TextProps } from "@chakra-ui/react";
+import {
+  FormControl,
+  FormControlProps,
+  FormLabel,
+  Input,
+} from "@chakra-ui/react";
 import { FC } from "react";
 
-type LabelInputProps = TextProps & {
+type LabelInputProps = FormControlProps & {
   type: string;
   value: string;
   fieldKey: string;
@@ -22,7 +27,13 @@ const LabelInput: FC<LabelInputProps> = ({
   ...props
 }) => {
   return (
-    <FormControl isRequired={isRequired} w="full" h="auto" mb="1.5rem">
+    <FormControl
+      isRequired={isRequired}
+      w="full"
+      h="auto"
+      mb="1.5rem"
+      {...props}
+    >
       <FormLabel>{label}</FormLabel>
       <Input
         value={value}

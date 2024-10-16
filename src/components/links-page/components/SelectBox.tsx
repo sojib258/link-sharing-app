@@ -1,8 +1,11 @@
 import { TextNormal } from "@/components/utils";
 import Icon from "@/components/utils/icon/Icon";
 import { colors } from "@/lib";
-import { selectOptions } from "@/lib/config/data";
+import { LinkCartTypes } from "@/lib/types/platformCartType";
+import { useGetAllPlatformQuery } from "@/store/services/platformApi";
+// import { selectOptions } from "@/lib/config/data";
 import { Flex } from "@chakra-ui/react";
+import { FC } from "react";
 import Select, { SingleValueProps } from "react-select";
 
 // Custom option component to display the icon and label
@@ -19,7 +22,7 @@ const CustomOption = (props: any) => {
     >
       <Icon name={data?.platform} size={18} />
       <TextNormal fontSize=".92rem" ml={2}>
-        {data.label}
+        {data?.label}
       </TextNormal>
     </Flex>
   );
@@ -32,18 +35,30 @@ const CustomSingleValue = (props: SingleValueProps<any>) => {
     <Flex align="center" bg="danger">
       <Icon name={data?.platform} size={18} />
       <TextNormal fontSize=".92rem" ml={2}>
-        {data.label}
+        {data?.label}
       </TextNormal>
     </Flex>
   );
 };
 
 // Main component with the custom select
-const SelectBox = () => {
+
+type SelectBoxProps = {
+  defaultValue: any;
+  handleUpdatePlatform: (value: LinkCartTypes["platform"]) => void;
+};
+
+const SelectBox: FC<SelectBoxProps> = ({
+  handleUpdatePlatform,
+  defaultValue,
+}) => {
+  const { isLoading, data } = useGetAllPlatformQuery(undefined);
+
   // Handle value change and get the selected platform
   const handleChange = (selectedOption: any) => {
     if (selectedOption) {
       console.log("Selected Platform:", selectedOption.platform);
+      handleUpdatePlatform(selectedOption.platform);
     }
   };
 
@@ -51,15 +66,15 @@ const SelectBox = () => {
     <Select
       className="basic-single"
       classNamePrefix="select"
-      placeholder="Select a platform" // Default selected option
+      placeholder="Select a platform"
       isClearable={true}
-      //   isSearchable={false}
       name="platform"
-      options={selectOptions}
-      components={{ Option: CustomOption, SingleValue: CustomSingleValue }} // Custom option and single value renderer
-      getOptionLabel={(option) => option.label} // Return the label for selection
-      getOptionValue={(option) => option.platform} // Ensure the value is based on platform
-      onChange={handleChange} // Handle the value change
+      options={data?.data}
+      components={{ Option: CustomOption, SingleValue: CustomSingleValue }}
+      getOptionLabel={(option) => option.label}
+      getOptionValue={(option) => option.platform}
+      onChange={handleChange}
+      defaultValue={defaultValue}
     />
   );
 };

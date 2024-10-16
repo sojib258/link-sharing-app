@@ -5,7 +5,7 @@ import { colors } from "@/lib";
 import { TOKEN_NAME, URL } from "@/lib/config/constants";
 import { RootState } from "@/store";
 import { login } from "@/store/slices/authSlice";
-import { Box, Center } from "@chakra-ui/react";
+import { Alert, AlertIcon, Box, Center } from "@chakra-ui/react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
@@ -34,13 +34,14 @@ const Register = () => {
     (state: RootState) => state.auth.loggedIn
   );
   const handleInputChange = (key: string, value: string) => {
+    setErrorMsg("");
     setFormData((prev) => ({
       ...prev,
       [key]: value,
     }));
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async () => {
     if (formData?.password === formData?.confirmPassword) {
       try {
         setLoading(true);
@@ -53,10 +54,13 @@ const Register = () => {
 
         toast.promise(responsePromise, {
           loading: "Trying to register...",
-          success: "Register successfull!",
+          success: "Registration successfull!",
           error: (error: any) => {
             console.log("AAAA", error);
-            return `${error?.response?.data?.error?.message}`;
+            return `${
+              error?.response?.data?.error?.message ||
+              "Something went wrong! Try again"
+            }`;
           },
         });
 
@@ -66,7 +70,7 @@ const Register = () => {
         dispatch(
           login({
             userId: responseData?.data?.user?.id,
-            token: responseData.data.jwt,
+            token: responseData?.data?.jwt,
           })
         );
 
@@ -74,9 +78,9 @@ const Register = () => {
         router.push("/links");
       } catch (error: any) {
         setLoading(false);
-        console.log("Errorrrrr", error);
-        if (error?.response?.data?.error?.status === 400) {
-          //   setErrorMsg(`${error?.}`);
+        console.log("error", error);
+        if (error?.response?.data?.error?.message) {
+          setErrorMsg(error?.response?.data?.error?.message);
         }
       } finally {
         setLoading(false);
@@ -88,9 +92,23 @@ const Register = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push("/links");
+      router.push("/");
     }
   });
+
+  // Workable Enter Button for Form Submit
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Enter") {
+        handleSubmit();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleSubmit]);
 
   return (
     <>
@@ -136,8 +154,26 @@ const Register = () => {
               handleChange={handleInputChange}
               isRequired={true}
             />
+            {errorMsg && (
+              <Alert
+                color={colors?.danger}
+                bg="transparent"
+                my=".4rem"
+                status="error"
+                p={0}
+                mb="1rem"
+              >
+                <AlertIcon fontSize="8px" />
+                {errorMsg}
+              </Alert>
+            )}
             <Box w="full" h="auto">
-              <BgButton onClick={handleSubmit} w="full" bg={colors?.primary}>
+              <BgButton
+                isLoading={loading}
+                onClick={handleSubmit}
+                w="full"
+                bg={colors?.primary}
+              >
                 Register
               </BgButton>
             </Box>

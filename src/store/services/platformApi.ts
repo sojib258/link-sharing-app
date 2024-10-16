@@ -7,7 +7,7 @@ export const platformApi = mainApi.injectEndpoints({
         url: `/platforms`,
         method: "GET",
       }),
-      providesTags: ["platform"],
+      providesTags: ["platforms"],
     }),
   }),
 });

@@ -1,27 +1,49 @@
 import { FlexBox, Icon, LinkInput, TextButton, TextNormal } from "@/components";
-import { colors } from "@/lib";
+import { LinkCartTypes } from "@/lib/types/platformCartType";
 import { Box, BoxProps } from "@chakra-ui/react";
-import { FC } from "react";
+import { FC, useState } from "react";
 import SelectBox from "./SelectBox";
 
-type LinkCartProps = BoxProps & {};
+type LinkCartProps = BoxProps & {
+  link: string;
+  index: number;
+  platform: LinkCartTypes["platform"];
+  handleLinkUpdate: (platform: LinkCartTypes["platform"], url: string) => void;
+};
 
-const LinkCart: FC<LinkCartProps> = ({ ...props }) => {
+const LinkCart: FC<LinkCartProps> = ({
+  link,
+  index,
+  platform,
+  handleLinkUpdate,
+  ...props
+}) => {
+  const [updatedPlatform, setUpdatedPlatform] = useState(platform);
+  const [updatedUrl, setUpdatedUrl] = useState(link);
+
+  const handleUpdatePlatform = (newPlatform: LinkCartTypes["platform"]) => {
+    setUpdatedPlatform(newPlatform);
+    handleLinkUpdate(newPlatform, updatedUrl); // Pass the new platform and the current URL
+  };
+
+  const handleUpdateUrl = (url: string) => {
+    setUpdatedUrl(url);
+    handleLinkUpdate(updatedPlatform, url); // Pass the current platform and the updated URL
+  };
+
   return (
     <Box w="full" h="full" mb={"3rem"} {...props}>
       <FlexBox justifyContent="space-between" alignItems="center" mb="8px">
         <FlexBox h="full" alignItems="center">
           <Icon name="bar-two" />
-          <TextNormal
-            ml="5px"
-            fontWeight="600"
-            color={colors.lightDark}
-          >{`Link #${1}`}</TextNormal>
+          <TextNormal ml="5px" fontWeight="600">
+            {`Link #${index + 1}`}
+          </TextNormal>
         </FlexBox>
         <TextButton
           px="0px"
           border="none"
-          color={colors.danger}
+          color="red" // Change this color variable to match your theme
           _hover={{ background: "transparent" }}
         >
           Remove
@@ -34,12 +56,15 @@ const LinkCart: FC<LinkCartProps> = ({ ...props }) => {
           Platform
         </TextNormal>
         <Box mb="12px">
-          <SelectBox />
+          <SelectBox
+            handleUpdatePlatform={handleUpdatePlatform}
+            defaultValue={updatedPlatform} // Use updatedPlatform for the value
+          />
         </Box>
         <TextNormal fontSize=".75rem" mb="4px">
           Link
         </TextNormal>
-        <LinkInput />
+        <LinkInput handleUpdateUrl={handleUpdateUrl} value={updatedUrl} />
       </Box>
     </Box>
   );

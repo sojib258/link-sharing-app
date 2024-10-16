@@ -10,7 +10,7 @@ const GoLogin: FC<GoLoginProps> = ({ ...props }) => {
   return (
     <Center mt={4} gap={4} alignItems="center" {...props}>
       <TextNormal>Already have an account?</TextNormal>
-      <Link href="/register">
+      <Link href="/login">
         <TextButton
           px="0px"
           border="none"

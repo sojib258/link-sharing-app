@@ -1,11 +1,10 @@
 import { PageLayout } from "@/components";
-import Register from "@/components/register/Register";
+import ProfileDetails from "@/components/profile-details/ProfileDetails";
 
 export default function Home() {
   return (
     <PageLayout>
-      {/* <Login /> */}
-      <Register />
+      <ProfileDetails />
     </PageLayout>
   );
 }
