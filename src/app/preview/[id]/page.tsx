@@ -1,34 +1,26 @@
 "use client";
-import { BgButton, FlexBox, TextButton } from "@/components";
+import { FlexBox } from "@/components";
 import PersonalInfo from "@/components/links-page/components/PersonalInfo";
 import PlatformButton from "@/components/links-page/components/PlatformButton";
 import ProfileImg from "@/components/links-page/components/ProfileImg";
 import Container from "@/components/preview-page/components/Container";
 import PreviewCartConatiner from "@/components/preview-page/components/PreviewCartContainer";
-import { colors } from "@/lib";
 import { LinkCartTypes } from "@/lib/types/platformCartType";
-import { RootState } from "@/store";
 import { useGetAllDevlinksQuery } from "@/store/services/devlinksApi";
-import { Box, Flex } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
+import { Box } from "@chakra-ui/react";
+import { useParams } from "next/navigation";
 
-const PreviewPage = () => {
-  const { userId } = useSelector((state: RootState) => state?.auth);
-  const { data } = useGetAllDevlinksQuery({ userId }, { skip: !userId });
+const home = () => {
+  const { id } = useParams();
+  console.log("use", id);
+  const { data } = useGetAllDevlinksQuery({ userId: id }, { skip: !id });
 
   const linksLength = data?.dev_links?.length > 6 ? true : false;
 
+  console.log("Da", data);
+
   return (
     <Container p="24px">
-      <Flex
-        justifyContent="space-between"
-        p="12px 16px"
-        bg={colors.white}
-        borderRadius="12px"
-      >
-        <TextButton>Back to Editor</TextButton>
-        <BgButton>Share Link</BgButton>
-      </Flex>
       <FlexBox justifyContent="center">
         <PreviewCartConatiner>
           <Box w="200px" h="auto">
@@ -59,4 +51,4 @@ const PreviewPage = () => {
   );
 };
 
-export default PreviewPage;
+export default home;

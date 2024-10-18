@@ -5,12 +5,14 @@ import {
   Image,
   Input,
 } from "@chakra-ui/react";
-import { FC, useState } from "react";
+import { FC } from "react";
 import ImageOverlay from "./ImageOverlay";
 import PreviewImageContainer from "./PreviewImageContainer";
 type ImageFormProps = FormControlProps & {
   isRequired?: boolean;
   label?: string;
+  imagePreview: string | null;
+  handleImageChange: (file: File) => void;
 };
 
 const styleOne = {
@@ -47,47 +49,22 @@ const labelUploadPicture = {
   justifyContent: "center",
   alignItems: "center",
   cursor: "pointer",
+  background: "rgba(0, 0, 0, 0.3)",
 };
 
-const ImageForm: FC<ImageFormProps> = ({ isRequired, label, ...props }) => {
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-
-  // Handle image file selection
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+const ImageForm: FC<ImageFormProps> = ({
+  isRequired,
+  label,
+  imagePreview,
+  handleImageChange,
+  ...props
+}) => {
+  const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setSelectedImage(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string); // Display the image in UI
-      };
-      reader.readAsDataURL(file); // Convert image to data URL for preview
+      handleImageChange(file);
     }
   };
-
-  //   // Handle form submission
-  //   const handleSave = async () => {
-  //     if (!selectedImage) return;
-
-  //     // Create a form data object to send the image to the backend
-  //     const formData = new FormData();
-  //     formData.append("profileImage", selectedImage);
-
-  //     // Send form data to backend API (replace with your actual API endpoint)
-  //     const response = await fetch("/api/uploadProfileImage", {
-  //       method: "POST",
-  //       body: formData,
-  //     });
-
-  //     if (response.ok) {
-  //       console.log("Image saved successfully!");
-  //       // Handle successful save (e.g., show success message)
-  //     } else {
-  //       console.log("Failed to save image");
-  //       // Handle error during save (e.g., show error message)
-  //     }
-  //   };
 
   return (
     <>
@@ -119,7 +96,7 @@ const ImageForm: FC<ImageFormProps> = ({ isRequired, label, ...props }) => {
                   type="file"
                   accept="image/*"
                   style={{ display: "none" }}
-                  onChange={handleImageChange}
+                  onChange={onImageChange}
                 />
               </label>
             </>
@@ -130,7 +107,7 @@ const ImageForm: FC<ImageFormProps> = ({ isRequired, label, ...props }) => {
                 type="file"
                 accept="image/*"
                 style={{ display: "none" }}
-                onChange={handleImageChange}
+                onChange={onImageChange}
               />
             </label>
           )}

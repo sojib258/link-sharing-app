@@ -6,12 +6,13 @@ import { useGetAllDevlinksQuery } from "@/store/services/devlinksApi";
 import { Box, Grid, GridItem, GridProps, Text } from "@chakra-ui/react";
 import { FC, useState } from "react";
 import { useSelector } from "react-redux";
+import LeftSection from "./components/LeftSection";
 import LinkCart from "./components/LinkCart";
 
 type LinksPageProps = GridProps & {};
 
 const LinksPage: FC<LinksPageProps> = ({ ...props }) => {
-  const { userId, token } = useSelector((state: RootState) => state?.auth);
+  const { userId } = useSelector((state: RootState) => state?.auth);
   const { isLoading, data } = useGetAllDevlinksQuery(
     { userId },
     { skip: !userId }
@@ -64,7 +65,7 @@ const LinksPage: FC<LinksPageProps> = ({ ...props }) => {
         h="full"
       >
         {/* Left Part Content */}
-        {/* <LeftSection /> */}
+        <LeftSection data={data} isLoading={isLoading} />
       </GridItem>
       <GridItem colSpan={{ base: 5, lg: 3 }} w="100%" h="full">
         <OverView data={data?.overview} />

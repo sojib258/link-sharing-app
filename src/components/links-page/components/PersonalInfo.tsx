@@ -4,13 +4,11 @@ import { Flex, FlexProps } from "@chakra-ui/react";
 import { FC } from "react";
 
 type PersonalInfoProps = FlexProps & {
-  data: {
-    name: string;
-    email: string;
-  };
+  name: string;
+  email: string;
 };
 
-const PersonalInfo: FC<PersonalInfoProps> = ({ data, ...props }) => {
+const PersonalInfo: FC<PersonalInfoProps> = ({ name, email, ...props }) => {
   return (
     <Flex
       w="full"
@@ -20,10 +18,10 @@ const PersonalInfo: FC<PersonalInfoProps> = ({ data, ...props }) => {
       {...props}
     >
       <TextNormal fontSize=".875rem" fontWeight="600">
-        {data?.name}
+        {name}
       </TextNormal>
       <TextNormal fontSize=".75rem" color={colors.menuTextColor}>
-        {data?.email}
+        {email}
       </TextNormal>
     </Flex>
   );
