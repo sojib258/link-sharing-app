@@ -45,7 +45,7 @@ const CustomSingleValue = (props: SingleValueProps<any>) => {
 
 type SelectBoxProps = {
   defaultValue: any;
-  handleUpdatePlatform: (value: LinkCartTypes["platform"]) => void;
+  handleUpdatePlatform: (value: LinkCartTypes) => void;
 };
 
 const SelectBox: FC<SelectBoxProps> = ({
@@ -53,12 +53,13 @@ const SelectBox: FC<SelectBoxProps> = ({
   defaultValue,
 }) => {
   const { isLoading, data } = useGetAllPlatformQuery(undefined);
+  console.log("SelectBoxData", data);
 
   // Handle value change and get the selected platform
   const handleChange = (selectedOption: any) => {
+    console.log("Se", selectedOption);
     if (selectedOption) {
-      console.log("Selected Platform:", selectedOption.platform);
-      handleUpdatePlatform(selectedOption.platform);
+      handleUpdatePlatform(selectedOption);
     }
   };
 

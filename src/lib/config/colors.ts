@@ -4,6 +4,7 @@ const Colors = {
   lightPrimary: "#efecfd",
   danger: "#ef383a",
   dangerLight: "#fab1b2",
+  deepDanger: "#c72224",
   dark: "#191919",
   lightDark: "#666666",
   textColor: "#322e2a",

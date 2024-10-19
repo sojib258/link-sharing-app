@@ -1,13 +1,21 @@
 "use client";
-import { AddButton, BgButton, FlexBox, OverView } from "@/components";
+import {
+  AddButton,
+  BgButton,
+  FlexBox,
+  LinksPageSkeleton,
+  OverView,
+} from "@/components";
+import { linkOverView } from "@/lib/config/data";
 import { LinkCartTypes } from "@/lib/types/platformCartType";
 import { RootState } from "@/store";
 import { useGetAllDevlinksQuery } from "@/store/services/devlinksApi";
-import { Box, Grid, GridItem, GridProps, Text } from "@chakra-ui/react";
+import { Box, Grid, GridItem, GridProps } from "@chakra-ui/react";
 import { FC, useState } from "react";
 import { useSelector } from "react-redux";
 import LeftSection from "./components/LeftSection";
 import LinkCart from "./components/LinkCart";
+import LinkModal from "./components/LinkModal";
 
 type LinksPageProps = GridProps & {};
 
@@ -48,7 +56,7 @@ const LinksPage: FC<LinksPageProps> = ({ ...props }) => {
   };
 
   if (isLoading) {
-    return <Text>Loading...</Text>;
+    return <LinksPageSkeleton />;
   }
 
   return (
@@ -65,11 +73,13 @@ const LinksPage: FC<LinksPageProps> = ({ ...props }) => {
         h="full"
       >
         {/* Left Part Content */}
-        <LeftSection data={data} isLoading={isLoading} />
+        <LeftSection data={data} />
       </GridItem>
       <GridItem colSpan={{ base: 5, lg: 3 }} w="100%" h="full">
-        <OverView data={data?.overview} />
-        <AddButton>Add new link</AddButton>
+        <OverView data={linkOverView} />
+        <LinkModal data={data}>
+          <AddButton>Add new link</AddButton>
+        </LinkModal>
 
         <Box w="full" minH="300px">
           {data?.dev_links?.map((item: LinkCartTypes, i: number) => (

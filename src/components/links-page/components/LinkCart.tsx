@@ -21,9 +21,9 @@ const LinkCart: FC<LinkCartProps> = ({
   const [updatedPlatform, setUpdatedPlatform] = useState(platform);
   const [updatedUrl, setUpdatedUrl] = useState(link);
 
-  const handleUpdatePlatform = (newPlatform: LinkCartTypes["platform"]) => {
-    setUpdatedPlatform(newPlatform);
-    handleLinkUpdate(newPlatform, updatedUrl); // Pass the new platform and the current URL
+  const handleUpdatePlatform = (newPlatform: LinkCartTypes) => {
+    setUpdatedPlatform(newPlatform.platform);
+    handleLinkUpdate(newPlatform.platform, updatedUrl); // Pass the new platform and the current URL
   };
 
   const handleUpdateUrl = (url: string) => {
