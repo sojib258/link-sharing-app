@@ -1,3 +1,4 @@
+import { colors } from "@/lib";
 import {
   FormControl,
   FormControlProps,
@@ -17,20 +18,6 @@ type ImageFormProps = FormControlProps & {
   handleImageChange: (file: File) => void;
 };
 
-const styleOne = {
-  position: "absolute",
-  top: 0,
-  left: 0,
-  width: "100%",
-  height: "100%",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  background: "rgba(0, 0, 0, 0.3)",
-  color: "white",
-  cursor: "pointer",
-};
-
 const labelChangePicture = {
   top: 0,
   left: 0,
@@ -39,7 +26,7 @@ const labelChangePicture = {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  background: "rgba(0, 0, 0, 0.3)",
+  background: colors?.lightWhite,
   color: "white",
   cursor: "pointer",
 };
@@ -51,7 +38,7 @@ const labelUploadPicture = {
   justifyContent: "center",
   alignItems: "center",
   cursor: "pointer",
-  background: "rgba(0, 0, 0, 0.3)",
+  background: colors?.lightWhite,
 };
 
 const ImageForm: FC<ImageFormProps> = ({
@@ -81,7 +68,7 @@ const ImageForm: FC<ImageFormProps> = ({
         mb="16px"
         {...props}
       >
-        <FormLabel minW="10rem">{label}</FormLabel>
+        <FormLabel minW={{ base: "7rem", sm: "10rem" }}>{label}</FormLabel>
         {/* <Box bg="red" textAlign="center"> */}
         <PreviewImageContainer>
           {displayImage ? (

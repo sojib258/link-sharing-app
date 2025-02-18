@@ -13,9 +13,7 @@ import { useGetAllDevlinksQuery } from "@/store/services/devlinksApi";
 import { Box, Grid, GridItem, GridProps } from "@chakra-ui/react";
 import { FC, useState } from "react";
 import { useSelector } from "react-redux";
-import LeftSection from "./components/LeftSection";
-import LinkCart from "./components/LinkCart";
-import LinkModal from "./components/LinkModal";
+import { LeftSection, LinkCart, LinkModal } from "./components/index";
 
 type LinksPageProps = GridProps & {};
 
@@ -45,8 +43,6 @@ const LinksPage: FC<LinksPageProps> = ({ ...props }) => {
       return updated;
     });
   };
-
-  console.log("Updated Links", updatedLinks);
 
   // Handle save functionality
   const handleSave = () => {

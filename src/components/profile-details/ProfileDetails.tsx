@@ -5,9 +5,9 @@ import { URL } from "@/lib/config/constants";
 import { formFields, profileOverView } from "@/lib/config/data";
 import { RootState } from "@/store";
 import { useGetAllDevlinksQuery } from "@/store/services/devlinksApi";
-import { Box, Grid, GridItem, GridProps, Stack, Text } from "@chakra-ui/react";
+import { Box, Grid, GridItem, GridProps, Stack } from "@chakra-ui/react";
 import axios from "axios";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { useSelector } from "react-redux";
 import ErrorMsg from "./components/ErrorMsg";
 import ImageForm from "./components/ImageForm";
@@ -16,7 +16,7 @@ type ProfileDetailsProps = GridProps & {};
 
 const ProfileDetails: FC<ProfileDetailsProps> = ({ ...props }) => {
   const { userId, token } = useSelector((state: RootState) => state?.auth);
-  const { data, isLoading } = useGetAllDevlinksQuery(
+  const { data, refetch, isFetching, isLoading } = useGetAllDevlinksQuery(
     { userId },
     { skip: !userId }
   );
@@ -33,7 +33,6 @@ const ProfileDetails: FC<ProfileDetailsProps> = ({ ...props }) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [reRender, setReRender] = useState(false);
 
   const handleInputChange = (key: keyof typeof formData, value: string) => {
     setError("");
@@ -130,7 +129,7 @@ const ProfileDetails: FC<ProfileDetailsProps> = ({ ...props }) => {
       if (updateResponse.status === 200) {
         setError("");
         console.log("Profile updated successfully!");
-        setReRender(true);
+        await refetch();
       } else {
         setError("Failed to update user information");
       }
@@ -143,30 +142,27 @@ const ProfileDetails: FC<ProfileDetailsProps> = ({ ...props }) => {
     }
   };
 
-  useEffect(() => {
-    if (reRender) {
-      setReRender(false);
-    }
-  }, [reRender]);
-
   return (
     <Grid
-      templateColumns="repeat(5, 1fr)"
+      templateColumns={{ base: "1fr", lg: "repeat(5, 1fr)" }}
       gap={2}
       {...props}
       px={{ base: "1rem", md: "6.25rem" }}
     >
       <GridItem
-        display={{ base: "none", lg: "block" }}
-        colSpan={2}
+        // display={{ base: "none", lg: "block" }}
+        colSpan={{ base: 1, lg: 2 }}
         w="100%"
         h="full"
+        order={{ base: 2, lg: 1 }}
       >
-        {loading && <Text fontSize="3rem">Loading...</Text>}
-        {/* Left Part Content */}
-        <LeftSection isLoading={isLoading} data={data} />
+        <LeftSection isLoading={isLoading || isFetching} data={data} />
       </GridItem>
-      <GridItem colSpan={{ base: 5, lg: 3 }} w="100%">
+      <GridItem
+        colSpan={{ base: 1, lg: 3 }}
+        w="100%"
+        order={{ base: 1, lg: 2 }}
+      >
         <Box mb="3rem">
           <OverView data={profileOverView} />
         </Box>
@@ -202,7 +198,13 @@ const ProfileDetails: FC<ProfileDetailsProps> = ({ ...props }) => {
           >
             {error && <ErrorMsg error={error} />}
             <Box>
-              <BgButton type="submit">Save</BgButton>
+              <BgButton
+                disabled={loading || isFetching}
+                isLoading={isLoading || isFetching}
+                type="submit"
+              >
+                Save
+              </BgButton>
             </Box>
           </Stack>
         </form>

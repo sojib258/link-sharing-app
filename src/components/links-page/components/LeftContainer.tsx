@@ -9,12 +9,13 @@ const LeftContainer: FC<LeftContainerProps> = ({ children, ...props }) => {
   return (
     <Flex
       h="600px"
-      w={{ base: "300px", xl: "400px" }}
+      w={{ base: "280px", xl: "400px" }}
       bg="url(/mockup/mockup2.png)"
       backgroundSize="contain"
       backgroundRepeat="no-repeat"
       backgroundPosition="center center"
       position="relative"
+      mx="auto"
       {...props}
     >
       {children}

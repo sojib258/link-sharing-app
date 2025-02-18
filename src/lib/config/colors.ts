@@ -13,6 +13,7 @@ const Colors = {
   black: "#000",
   borderColor: "#b3a7cf",
   lightBorder: "#eeeeee",
+  lightWhite: "rgba(0, 0, 0, 0.3)",
 };
 
 export default Colors;

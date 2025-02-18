@@ -1,14 +1,10 @@
-import {
-  FlexBox,
-  PersonalInfoSkeleton,
-  PlatformButtonSkeleton,
-  ProfileImgSkeleton,
-} from "@/components";
+import { FlexBox, PlatformButtonSkeleton } from "@/components";
 import { UserDetailsType } from "@/lib/types/platformCartType";
 import { Box } from "@chakra-ui/react";
 import { FC } from "react";
 import LeftContainer from "./LeftContainer";
 import PersonalInfo from "./PersonalInfo";
+import PlaceholderButtons from "./PlaceholderButtons";
 import PlatformButton from "./PlatformButton";
 import ProfileImg from "./ProfileImg";
 
@@ -20,32 +16,32 @@ type LeftSectionProps = {
 const LeftSection: FC<LeftSectionProps> = ({ data, isLoading }) => {
   const linksLength = data?.dev_links?.length > 6 ? true : false;
 
-  console.log("DataLeftSection", data);
   return (
     <LeftContainer>
       <Box
-        w="200px"
+        w="190px"
         h="auto"
         position="absolute"
         top="100px"
-        left={{ base: "50px", xl: "100px" }}
+        left="50%"
+        transform={"translateX(-50%)"}
       >
         {/* Image Area */}
-        {isLoading ? (
-          <ProfileImgSkeleton />
-        ) : (
-          <ProfileImg imgSrc={data?.image?.url} />
-        )}
+        <ProfileImg
+          imgSrc={data?.image?.url}
+          isLoading={isLoading}
+          firstName={data?.firstname}
+          lastName={data?.lastname}
+        />
 
         {/* Personal Information Area */}
-        {isLoading ? (
-          <PersonalInfoSkeleton />
-        ) : (
-          <PersonalInfo
-            name={`${data?.firstname} ${data?.lastname}`}
-            email={data?.email}
-          />
-        )}
+
+        <PersonalInfo
+          firstName={data?.firstname}
+          lastName={data?.lastname}
+          email={data?.email}
+          isLoading={isLoading}
+        />
 
         {/* Added Links Card */}
         {isLoading ? (
@@ -57,9 +53,13 @@ const LeftSection: FC<LeftSectionProps> = ({ data, isLoading }) => {
             height="265px"
             overflowY={linksLength ? "scroll" : "hidden"}
           >
-            {data?.dev_links?.map((item, i) => (
-              <PlatformButton key={i} dev_links={item} />
-            ))}
+            {data?.dev_links?.length > 0 ? (
+              data?.dev_links?.map((item, i) => (
+                <PlatformButton key={i} dev_links={item} />
+              ))
+            ) : (
+              <PlaceholderButtons />
+            )}
           </FlexBox>
         )}
       </Box>
