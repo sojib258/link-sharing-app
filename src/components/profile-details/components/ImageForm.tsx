@@ -8,10 +8,12 @@ import {
 import { FC } from "react";
 import ImageOverlay from "./ImageOverlay";
 import PreviewImageContainer from "./PreviewImageContainer";
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
 type ImageFormProps = FormControlProps & {
   isRequired?: boolean;
   label?: string;
   imagePreview: string | null;
+  defaultImage?: string | null;
   handleImageChange: (file: File) => void;
 };
 
@@ -56,9 +58,12 @@ const ImageForm: FC<ImageFormProps> = ({
   isRequired,
   label,
   imagePreview,
+  defaultImage,
   handleImageChange,
   ...props
 }) => {
+  const displayImage = imagePreview || defaultImage;
+
   const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -66,6 +71,7 @@ const ImageForm: FC<ImageFormProps> = ({
     }
   };
 
+  console.log("displayImage", displayImage);
   return (
     <>
       <FormControl
@@ -78,10 +84,12 @@ const ImageForm: FC<ImageFormProps> = ({
         <FormLabel minW="10rem">{label}</FormLabel>
         {/* <Box bg="red" textAlign="center"> */}
         <PreviewImageContainer>
-          {imagePreview ? (
+          {displayImage ? (
             <>
               <Image
-                src={imagePreview}
+                src={
+                  imagePreview ? displayImage : `${BACKEND_URL}/${displayImage}`
+                }
                 alt="Profile Preview"
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />

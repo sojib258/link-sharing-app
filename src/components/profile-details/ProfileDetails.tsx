@@ -176,6 +176,7 @@ const ProfileDetails: FC<ProfileDetailsProps> = ({ ...props }) => {
             label="Profile Picture"
             imagePreview={imagePreview}
             handleImageChange={handleImageChange}
+            defaultImage={data?.image?.url}
           />
           {formFields?.map((item, i) => (
             <TextInput
