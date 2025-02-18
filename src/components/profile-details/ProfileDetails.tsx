@@ -1,22 +1,15 @@
 "use client";
-import { BgButton, FlexBox, OverView, TextInput } from "@/components";
+import { BgButton, OverView, TextInput } from "@/components";
 import LeftSection from "@/components/links-page/components/LeftSection";
 import { URL } from "@/lib/config/constants";
 import { formFields, profileOverView } from "@/lib/config/data";
 import { RootState } from "@/store";
 import { useGetAllDevlinksQuery } from "@/store/services/devlinksApi";
-import {
-  Alert,
-  AlertIcon,
-  Box,
-  Grid,
-  GridItem,
-  GridProps,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Grid, GridItem, GridProps, Stack, Text } from "@chakra-ui/react";
 import axios from "axios";
 import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import ErrorMsg from "./components/ErrorMsg";
 import ImageForm from "./components/ImageForm";
 
 type ProfileDetailsProps = GridProps & {};
@@ -33,6 +26,8 @@ const ProfileDetails: FC<ProfileDetailsProps> = ({ ...props }) => {
     lastname: data?.lastname || "",
     email: data?.email || "",
   });
+
+  console.log("DATA", data);
 
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -154,8 +149,6 @@ const ProfileDetails: FC<ProfileDetailsProps> = ({ ...props }) => {
     }
   }, [reRender]);
 
-  console.log("reRender", reRender);
-
   return (
     <Grid
       templateColumns="repeat(5, 1fr)"
@@ -200,20 +193,17 @@ const ProfileDetails: FC<ProfileDetailsProps> = ({ ...props }) => {
               mb="16px"
             />
           ))}
-          <FlexBox
-            justifyContent="flex-end"
+          <Stack
+            alignItems="flex-end"
             mt="2rem"
             // borderTop={`1px solid ${colors.borderColor}`}
             py="24px"
           >
-            {error && (
-              <Alert status="error">
-                <AlertIcon />
-                {error}
-              </Alert>
-            )}
-            <BgButton type="submit">Save</BgButton>
-          </FlexBox>
+            {error && <ErrorMsg error={error} />}
+            <Box>
+              <BgButton type="submit">Save</BgButton>
+            </Box>
+          </Stack>
         </form>
       </GridItem>
     </Grid>

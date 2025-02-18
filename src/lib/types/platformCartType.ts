@@ -12,12 +12,12 @@ export type PlatformCartType = {
 import { IconNameOptions } from "@/components/utils/icon/Icon";
 
 export type LinkCartTypes = {
-  id: number;
+  id: number | null;
   documentId: string;
   url: string;
   priority: number;
   platform: {
-    id: number;
+    id: number | null;
     documentId: string;
     platform: IconNameOptions; // like-github, youtube, facebook
     label: string;

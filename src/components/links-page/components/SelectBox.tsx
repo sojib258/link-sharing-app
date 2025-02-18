@@ -44,8 +44,8 @@ const CustomSingleValue = (props: SingleValueProps<any>) => {
 // Main component with the custom select
 
 type SelectBoxProps = {
-  defaultValue: any;
-  handleUpdatePlatform: (value: LinkCartTypes) => void;
+  defaultValue?: any;
+  handleUpdatePlatform: (value: LinkCartTypes["platform"]) => void;
 };
 
 const SelectBox: FC<SelectBoxProps> = ({

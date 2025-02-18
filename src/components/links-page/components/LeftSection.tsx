@@ -20,7 +20,7 @@ type LeftSectionProps = {
 const LeftSection: FC<LeftSectionProps> = ({ data, isLoading }) => {
   const linksLength = data?.dev_links?.length > 6 ? true : false;
 
-  console.log("Data", data);
+  console.log("DataLeftSection", data);
   return (
     <LeftContainer>
       <Box

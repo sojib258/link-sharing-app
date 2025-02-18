@@ -5,9 +5,15 @@ import { FC, ReactNode } from "react";
 type IconButtonProps = ButtonProps & {
   children?: string | ReactNode;
   leftIcon?: ReactNode;
+  isActive?: boolean;
 };
 
-const IconButton: FC<IconButtonProps> = ({ leftIcon, children, ...props }) => {
+const IconButton: FC<IconButtonProps> = ({
+  leftIcon,
+  children,
+  isActive,
+  ...props
+}) => {
   return (
     <Button
       border="none"
@@ -16,6 +22,7 @@ const IconButton: FC<IconButtonProps> = ({ leftIcon, children, ...props }) => {
       color={colors.primary}
       _hover={{ background: colors.lightPrimary }}
       fontSize="1rem"
+      bg={isActive ? colors.lightPrimary : "transparent"}
       {...props}
     >
       {children}
