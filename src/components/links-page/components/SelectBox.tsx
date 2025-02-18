@@ -53,7 +53,6 @@ const SelectBox: FC<SelectBoxProps> = ({
   defaultValue,
 }) => {
   const { isLoading, data } = useGetAllPlatformQuery(undefined);
-  console.log("SelectBoxData", data);
 
   // Handle value change and get the selected platform
   const handleChange = (selectedOption: any) => {

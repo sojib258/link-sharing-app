@@ -22,9 +22,10 @@ import SelectBox from "./SelectBox";
 type LinkModalProps = {
   children: ReactNode;
   data: any;
+  refetch: () => void;
 };
 
-const LinkModal: FC<LinkModalProps> = ({ children, data }) => {
+const LinkModal: FC<LinkModalProps> = ({ children, data, refetch }) => {
   const { userId, token } = useSelector((state: RootState) => state?.auth);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef<HTMLDivElement>(null);
@@ -70,38 +71,48 @@ const LinkModal: FC<LinkModalProps> = ({ children, data }) => {
     onClose();
   };
 
+  console.log("Updated Plat", updatedPlatform);
+
   const handleLinkCreate = async () => {
     try {
       const { platform, urlPattern } = updatedPlatform;
+
       const regex = new RegExp(urlPattern);
       if (regex.test(url)) {
         setError("");
-        const response = axios.post(`${URL}/dev-links`, {
-          data: {
-            users_permissions_users: userId,
-            platform: updatedPlatform?.id,
-            url: url,
+        const response = axios.post(
+          `${URL}/dev-links`,
+          {
+            data: {
+              users_permissions_users: userId,
+              platform: updatedPlatform?.id,
+              url: url,
+            },
           },
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         let capitalizedStr =
           platform.charAt(0).toUpperCase() + platform.slice(1);
         toast.promise(response, {
           success: {
-            title: `${capitalizedStr} Created Success`,
-            description: "Looks great",
+            title: `${capitalizedStr} Link Addedd Successfull`,
+            description: "It's Awesome!",
           },
           error: { title: "Promise rejected", description: "Something wrong" },
           loading: { title: "Promise pending", description: "Please wait" },
         });
 
         const responseData = await response;
-        console.log("Succesfully Created");
         console.log("ResponseData", responseData);
+        platFormReset();
+        refetch();
       } else {
+        console.log("Else Case");
         setError(`Invalid url for ${platform}, ${url}`);
       }
     } catch (error) {
@@ -121,7 +132,7 @@ const LinkModal: FC<LinkModalProps> = ({ children, data }) => {
           <ModalCloseButton onClick={platFormReset} />
           <Box w="full" position="relative">
             <TextNormal mb="1.5rem" fontWeight="600" fontSize="1.5rem">
-              Add you link
+              Add your link
             </TextNormal>
 
             <TextNormal fontSize=".75rem" mb="4px">

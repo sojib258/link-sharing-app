@@ -19,13 +19,15 @@ type LinksPageProps = GridProps & {};
 
 const LinksPage: FC<LinksPageProps> = ({ ...props }) => {
   const { userId } = useSelector((state: RootState) => state?.auth);
-  const { isLoading, data } = useGetAllDevlinksQuery(
+  const { data, refetch, isLoading, isFetching } = useGetAllDevlinksQuery(
     { userId },
     { skip: !userId }
   );
 
   // State to store updated links
   const [updatedLinks, setUpdatedLinks] = useState<LinkCartTypes[]>([]);
+  const [hasChanges, setHasChanges] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<boolean[]>([]);
 
   // Handle link updates (platform and URL)
   const handleLinkUpdate = (
@@ -33,6 +35,15 @@ const LinksPage: FC<LinksPageProps> = ({ ...props }) => {
     platform: LinkCartTypes["platform"],
     url: string
   ) => {
+    const regex = new RegExp(platform?.urlPattern); // Define your urlPattern somewhere
+    const isValid = regex.test(url);
+
+    setValidationErrors((prevErrors) => {
+      const newErrors = [...prevErrors];
+      newErrors[index] = !isValid;
+      return newErrors;
+    });
+
     setUpdatedLinks((prevLinks) => {
       const updated = [...prevLinks];
       updated[index] = {
@@ -42,16 +53,22 @@ const LinksPage: FC<LinksPageProps> = ({ ...props }) => {
       };
       return updated;
     });
+
+    setHasChanges(true);
   };
 
   // Handle save functionality
   const handleSave = () => {
+    if (validationErrors.some((error) => error)) {
+      console.error("Validation errors exist. Cannot save.");
+      return;
+    }
     console.log("Inside Btn", updatedLinks);
     // Assuming you have a save function that accepts an array of updated links and userId
     // saveLinksToBackend(userId, updatedLinks, token); // You need to implement this function for API call
   };
 
-  if (isLoading) {
+  if (isLoading || isFetching) {
     return <LinksPageSkeleton />;
   }
 
@@ -73,7 +90,7 @@ const LinksPage: FC<LinksPageProps> = ({ ...props }) => {
       </GridItem>
       <GridItem colSpan={{ base: 5, lg: 3 }} w="100%" h="full">
         <OverView data={linkOverView} />
-        <LinkModal data={data}>
+        <LinkModal refetch={refetch} data={data}>
           <AddButton>Add new link</AddButton>
         </LinkModal>
 
@@ -87,11 +104,19 @@ const LinksPage: FC<LinksPageProps> = ({ ...props }) => {
               key={i}
               index={i}
               link={item?.url}
+              documentId={item?.documentId}
+              refetch={refetch}
+              hasError={validationErrors[i]}
             />
           ))}
         </Box>
         <FlexBox justifyContent="flex-end" mt="2rem" py="24px">
-          <BgButton onClick={handleSave}>Save</BgButton>
+          <BgButton
+            onClick={handleSave}
+            isDisabled={!hasChanges || validationErrors.some((error) => error)}
+          >
+            Save
+          </BgButton>
         </FlexBox>
       </GridItem>
     </Grid>
