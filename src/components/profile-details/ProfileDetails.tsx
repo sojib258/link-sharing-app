@@ -150,7 +150,6 @@ const ProfileDetails: FC<ProfileDetailsProps> = ({ ...props }) => {
       px={{ base: "1rem", md: "6.25rem" }}
     >
       <GridItem
-        // display={{ base: "none", lg: "block" }}
         colSpan={{ base: 1, lg: 2 }}
         w="100%"
         h="full"

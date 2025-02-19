@@ -1,4 +1,5 @@
-import { Icon } from "@/components";
+"use client";
+import { Icon, TextNormal } from "@/components";
 import { colors } from "@/lib";
 import {
   Input,
@@ -6,7 +7,7 @@ import {
   InputGroupProps,
   InputLeftAddon,
 } from "@chakra-ui/react";
-import { FC } from "react";
+import { FC, useState } from "react";
 
 type LinkInputProps = InputGroupProps & {
   value: string;
@@ -18,18 +19,42 @@ const LinkInput: FC<LinkInputProps> = ({
   handleUpdateUrl,
   ...props
 }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(value);
+    setCopied(true);
+
+    // Reset the "Copied" text after 2 seconds
+    setTimeout(() => setCopied(false), 2000);
+  };
   return (
     <InputGroup size="md" {...props}>
-      <InputLeftAddon>
-        <Icon size={14} name="link" />
+      <InputLeftAddon
+        cursor={"pointer"}
+        onClick={handleCopy}
+        border={`1px solid ${colors?.primary}`}
+        _hover={{
+          border: `1px solid ${colors?.deepPrimary}`,
+        }}
+      >
+        {copied ? (
+          <TextNormal fontSize="sm" color="green.500">
+            Copied!
+          </TextNormal>
+        ) : (
+          <Icon size={14} name="link" />
+        )}
       </InputLeftAddon>
       <Input
-        focusBorderColor={colors.lightPrimary}
-        _focus={{ border: "none", outline: "none" }}
         placeholder="mysite"
         type="text"
         value={value}
         onChange={(e) => handleUpdateUrl(e.target.value)}
+        border={`1px solid ${colors?.primary}`}
+        _hover={{
+          border: `1px solid ${colors?.deepPrimary}`,
+        }}
       />
     </InputGroup>
   );

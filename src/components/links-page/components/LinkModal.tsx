@@ -1,4 +1,9 @@
-import { BgButton, LinkInput, TextNormal } from "@/components/utils";
+import {
+  BgButton,
+  LinkInput,
+  SimpleTextInput,
+  TextNormal,
+} from "@/components/utils";
 import { colors } from "@/lib";
 import { URL } from "@/lib/config/constants";
 import { LinkCartTypes } from "@/lib/types/platformCartType";
@@ -29,6 +34,7 @@ const LinkModal: FC<LinkModalProps> = ({ children, data, refetch }) => {
   const { userId, token } = useSelector((state: RootState) => state?.auth);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef<HTMLDivElement>(null);
+  const [priority, setPriority] = useState(10);
   const toast = useToast();
   const [updatedPlatform, setUpdatedPlatform] = useState<{
     id: number | null;
@@ -52,6 +58,10 @@ const LinkModal: FC<LinkModalProps> = ({ children, data, refetch }) => {
     });
   };
 
+  const handleUpdatePriority = (value: string) => {
+    setPriority(parseInt(value));
+  };
+
   const handleUpdateUrl = (value: string) => {
     if (!updatedPlatform?.platform) {
       setError("Please select platform first");
@@ -71,8 +81,6 @@ const LinkModal: FC<LinkModalProps> = ({ children, data, refetch }) => {
     onClose();
   };
 
-  console.log("Updated Plat", updatedPlatform);
-
   const handleLinkCreate = async () => {
     try {
       const { platform, urlPattern } = updatedPlatform;
@@ -87,6 +95,7 @@ const LinkModal: FC<LinkModalProps> = ({ children, data, refetch }) => {
               users_permissions_users: userId,
               platform: updatedPlatform?.id,
               url: url,
+              priority: priority,
             },
           },
           {
@@ -120,9 +129,11 @@ const LinkModal: FC<LinkModalProps> = ({ children, data, refetch }) => {
     }
   };
 
+  const isDisabled = !updatedPlatform?.platform || !url;
+
   return (
     <>
-      <Flex ref={btnRef} onClick={onOpen}>
+      <Flex my="2rem" ref={btnRef} onClick={onOpen}>
         {children}
       </Flex>
       <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={platFormReset}>
@@ -135,35 +146,55 @@ const LinkModal: FC<LinkModalProps> = ({ children, data, refetch }) => {
               Add your link
             </TextNormal>
 
-            <TextNormal fontSize=".75rem" mb="4px">
-              Platform
-            </TextNormal>
             <Box mb="12px">
+              <TextNormal fontSize=".75rem" mb="4px">
+                Platform
+              </TextNormal>
               <SelectBox
                 handleUpdatePlatform={handleUpdatePlatform}
                 // defaultValue={updatedPlatform} // Use updatedPlatform for the value
               />
             </Box>
-            <TextNormal fontSize=".75rem" mb="4px">
-              Link
-            </TextNormal>
-            <LinkInput handleUpdateUrl={handleUpdateUrl} value={url} />
+            <Box mb="12px">
+              <TextNormal fontSize=".75rem" mb="4px">
+                Link
+              </TextNormal>
+              <LinkInput handleUpdateUrl={handleUpdateUrl} value={url} />
+              {error && <ErrorMsg mt={"4px"} error={error} />}
+            </Box>
+
+            <Box mb="12px">
+              <SimpleTextInput
+                name={"priority"}
+                type={"number"}
+                value={priority}
+                handleChange={handleUpdatePriority}
+                label={"Priority:"}
+                placeholder={10}
+                alignItems="flex-start"
+                flexDir="column"
+                labelStyle={{ fontSize: ".75rem", mb: "4px", color: "#322e2a" }}
+              />
+            </Box>
           </Box>
-          <Box mt="2rem">
-            {error && <ErrorMsg error={error} />}
-            <Flex gap={2} justifyContent="flex-end" alignItems="flex-end">
-              <BgButton
-                h="10px"
-                p="16px 14px"
-                fontSize=".775rem"
-                w="60px"
-                bg={colors?.primary}
-                onClick={handleLinkCreate}
-              >
-                Create
-              </BgButton>
-            </Flex>
-          </Box>
+          <Flex
+            mt="12px"
+            gap={2}
+            justifyContent="flex-end"
+            alignItems="flex-end"
+          >
+            <BgButton
+              h="16px"
+              p="18px 14px"
+              fontSize=".875rem"
+              w="100px"
+              bg={colors?.primary}
+              onClick={handleLinkCreate}
+              disabled={isDisabled}
+            >
+              Create
+            </BgButton>
+          </Flex>
         </ModalContent>
       </Modal>
     </>

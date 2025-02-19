@@ -16,6 +16,7 @@ const ErrorMsg: FC<ErrorMsgProps> = ({ error, ...props }) => {
       bg="transparent"
       status="error"
       p={0}
+      {...props}
     >
       <AlertIcon mr={2} width="1rem" h="1rem" />
       <TextNormal fontSize=".85rem" color={colors?.danger}>

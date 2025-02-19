@@ -1,5 +1,5 @@
 import { FlexBox, PlatformButtonSkeleton } from "@/components";
-import { UserDetailsType } from "@/lib/types/platformCartType";
+import { LinkCartTypes, UserDetailsType } from "@/lib/types/platformCartType";
 import { Box } from "@chakra-ui/react";
 import { FC } from "react";
 import LeftContainer from "./LeftContainer";
@@ -54,9 +54,12 @@ const LeftSection: FC<LeftSectionProps> = ({ data, isLoading }) => {
             overflowY={linksLength ? "scroll" : "hidden"}
           >
             {data?.dev_links?.length > 0 ? (
-              data?.dev_links?.map((item, i) => (
-                <PlatformButton key={i} dev_links={item} />
-              ))
+              [...data.dev_links] // Create a shallow copy to avoid mutating the original array
+                .sort(
+                  (a: LinkCartTypes, b: LinkCartTypes) =>
+                    b.priority - a.priority
+                ) // Sort by priority (higher first)
+                .map((item, i) => <PlatformButton key={i} dev_links={item} />)
             ) : (
               <PlaceholderButtons />
             )}

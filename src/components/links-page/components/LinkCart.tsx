@@ -1,8 +1,15 @@
-import { FlexBox, Icon, LinkInput, TextButton, TextNormal } from "@/components";
+import {
+  FlexBox,
+  Icon,
+  LinkInput,
+  SimpleTextInput,
+  TextButton,
+  TextNormal,
+} from "@/components";
 import { URL } from "@/lib/config/constants";
 import { LinkCartTypes } from "@/lib/types/platformCartType";
 import { RootState } from "@/store";
-import { Box, BoxProps, useToast } from "@chakra-ui/react";
+import { Box, BoxProps, Center, Flex, Grid, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { FC, useState } from "react";
 import { useSelector } from "react-redux";
@@ -13,8 +20,13 @@ type LinkCartProps = BoxProps & {
   index: number;
   platform: LinkCartTypes["platform"];
   documentId: string;
+  priority?: number;
   refetch: () => void;
-  handleLinkUpdate: (platform: LinkCartTypes["platform"], url: string) => void;
+  handleLinkUpdate: (
+    platform: LinkCartTypes["platform"],
+    url: string,
+    priority?: number
+  ) => void;
   hasError: boolean;
 };
 
@@ -23,6 +35,7 @@ const LinkCart: FC<LinkCartProps> = ({
   index,
   platform,
   documentId,
+  priority,
   refetch,
   handleLinkUpdate,
   hasError,
@@ -32,10 +45,16 @@ const LinkCart: FC<LinkCartProps> = ({
   const [updatedPlatform, setUpdatedPlatform] = useState(platform);
   const [updatedUrl, setUpdatedUrl] = useState(link);
   const toast = useToast();
+  const [updatedPriority, setUpdatedPriority] = useState(priority);
 
   const handleUpdatePlatform = (newPlatform: LinkCartTypes["platform"]) => {
     setUpdatedPlatform(newPlatform);
-    handleLinkUpdate(newPlatform, updatedUrl); // Pass the new platform and the current URL
+    handleLinkUpdate(newPlatform, updatedUrl, updatedPriority); // Pass the new platform and the current URL
+  };
+
+  const handlePriorityChange = (value: string) => {
+    setUpdatedPriority(parseInt(value));
+    handleLinkUpdate(updatedPlatform, updatedUrl, parseInt(value));
   };
 
   const handleUpdateUrl = (url: string) => {
@@ -68,26 +87,57 @@ const LinkCart: FC<LinkCartProps> = ({
   };
 
   return (
-    <Box w="full" h="full" mb={"3rem"} {...props}>
-      <FlexBox justifyContent="space-between" alignItems="center" mb="8px">
+    <Box
+      bg={"#f0f0f0"}
+      px="16px"
+      py="16px"
+      borderRadius="8px"
+      w="full"
+      h="full"
+      mb={"2rem"}
+      boxShadow="rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px"
+      {...props}
+    >
+      <Grid
+        gridTemplateColumns={{ base: "1fr 1fr", sm: "repeat(3, 1fr)" }}
+        gap={{ base: 2, sm: 4 }}
+        mb={2}
+      >
         <FlexBox h="full" alignItems="center">
           <Icon name="bar-two" />
           <TextNormal ml="5px" fontWeight="600">
             {`Link #${index + 1}`}
           </TextNormal>
         </FlexBox>
-        <TextButton
-          px="0px"
-          border="none"
-          color="red" // Change this color variable to match your theme
-          _hover={{ background: "transparent" }}
-          onClick={handleDeleteLink}
-        >
-          Remove
-        </TextButton>
-      </FlexBox>
+        <Center alignItems="center" h="full" order={{ base: 3, sm: 2 }}>
+          <SimpleTextInput
+            name={"priority"}
+            type={"number"}
+            value={updatedPriority}
+            handleChange={handlePriorityChange}
+            label={"Priority:"}
+            placeholder={10}
+          />
+        </Center>
 
-      {/* Link Cart */}
+        <Flex
+          justifyContent="flex-end"
+          alignItems="center"
+          order={{ base: 2, sm: 3 }}
+        >
+          <TextButton
+            px="2px"
+            border="none"
+            color="red" // Change this color variable to match your theme
+            _hover={{ background: "transparent" }}
+            onClick={handleDeleteLink}
+            textAlign="right"
+          >
+            Remove
+          </TextButton>
+        </Flex>
+      </Grid>
+
       <Box w="full" position="relative">
         <TextNormal fontSize=".75rem" mb="4px">
           Platform

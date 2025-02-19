@@ -18,7 +18,6 @@ const AddButton: FC<AddButtonProps> = ({ leftIcon, children, ...props }) => {
       variant="outline"
       color={colors.primary}
       _hover={{ background: colors.lightPrimary }}
-      my="2rem"
       fontSize=".85rem"
       fontWeight="500"
       {...props}
