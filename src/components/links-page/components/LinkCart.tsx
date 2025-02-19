@@ -2,7 +2,7 @@ import {
   FlexBox,
   Icon,
   LinkInput,
-  SimpleTextInput,
+  SimpleTextInput as PriorityInput,
   TextButton,
   TextNormal,
 } from "@/components";
@@ -59,7 +59,7 @@ const LinkCart: FC<LinkCartProps> = ({
 
   const handleUpdateUrl = (url: string) => {
     setUpdatedUrl(url);
-    handleLinkUpdate(updatedPlatform, url); // Pass the current platform and the updated URL
+    handleLinkUpdate(updatedPlatform, url, updatedPriority); // Pass the current platform and the updated URL
   };
 
   const handleDeleteLink = async () => {
@@ -110,7 +110,7 @@ const LinkCart: FC<LinkCartProps> = ({
           </TextNormal>
         </FlexBox>
         <Center alignItems="center" h="full" order={{ base: 3, sm: 2 }}>
-          <SimpleTextInput
+          <PriorityInput
             name={"priority"}
             type={"number"}
             value={updatedPriority}

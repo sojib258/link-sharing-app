@@ -5,6 +5,7 @@ type AuthState = {
   token: string | null;
   loggedIn: boolean;
   userId: number | null;
+  documentId: string | null;
 };
 
 // Define the initial state
@@ -20,6 +21,10 @@ const initialState: AuthState = {
     typeof window !== "undefined" && localStorage.getItem("userId") != null
       ? Number(localStorage.getItem("userId"))
       : null,
+  documentId:
+    typeof window !== "undefined" && localStorage.getItem("documentId") != null
+      ? localStorage.getItem("documentId")
+      : null,
 };
 
 export const authSlice = createSlice({
@@ -32,19 +37,25 @@ export const authSlice = createSlice({
       state.token = null;
       state.loggedIn = false;
       state.userId = null;
+      state.documentId = null;
       document.location.href = "/login";
     },
     login: (
       state,
-      action: PayloadAction<{ token: string; userId: number }>
+      action: PayloadAction<{
+        token: string;
+        userId: number;
+        documentId: string;
+      }>
     ) => {
-      const { token, userId } = action.payload;
+      const { token, userId, documentId } = action.payload;
       state.token = token;
       state.loggedIn = true;
       state.userId = userId;
+      state.documentId = documentId;
       localStorage.setItem(TOKEN_NAME, token);
       localStorage.setItem("userId", userId.toString());
-      document.location.href = "/links";
+      localStorage.setItem("documentId", documentId.toString());
     },
   },
 });

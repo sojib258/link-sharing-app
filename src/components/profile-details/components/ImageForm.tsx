@@ -9,7 +9,6 @@ import {
 import { FC } from "react";
 import ImageOverlay from "./ImageOverlay";
 import PreviewImageContainer from "./PreviewImageContainer";
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
 type ImageFormProps = FormControlProps & {
   isRequired?: boolean;
   label?: string;
@@ -74,9 +73,7 @@ const ImageForm: FC<ImageFormProps> = ({
           {displayImage ? (
             <>
               <Image
-                src={
-                  imagePreview ? displayImage : `${BACKEND_URL}/${displayImage}`
-                }
+                src={imagePreview ? displayImage : `${displayImage}`}
                 alt="Profile Preview"
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />

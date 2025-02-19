@@ -2,12 +2,11 @@
 "use client";
 import { BgButton, LabelInput, TextNormal } from "@/components";
 import { colors } from "@/lib";
-import { TOKEN_NAME, URL } from "@/lib/config/constants";
+import { URL } from "@/lib/config/constants";
 import { RootState } from "@/store";
 import { login } from "@/store/slices/authSlice";
 import { Alert, AlertIcon, Box, Center } from "@chakra-ui/react";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -66,11 +65,11 @@ const Register = () => {
 
         // Trying login after registration
         const responseData = await responsePromise;
-        Cookies.set(TOKEN_NAME, responseData?.data?.jwt, { expires: 7 });
         dispatch(
           login({
             userId: responseData?.data?.user?.id,
             token: responseData?.data?.jwt,
+            documentId: responseData?.data?.user?.documentId,
           })
         );
 

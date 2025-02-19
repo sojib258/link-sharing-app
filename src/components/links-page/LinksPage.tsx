@@ -13,14 +13,17 @@ import { RootState } from "@/store";
 import { useGetAllDevlinksQuery } from "@/store/services/devlinksApi";
 import { Box, Grid, GridItem, GridProps } from "@chakra-ui/react";
 import axios from "axios";
-import { FC, useState } from "react";
+import { useRouter } from "next/navigation";
+import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { LeftSection, LinkCart, LinkModal } from "./components/index";
 
 type LinksPageProps = GridProps & {};
 
 const LinksPage: FC<LinksPageProps> = ({ ...props }) => {
-  const { userId, token } = useSelector((state: RootState) => state?.auth);
+  const { userId, token, loggedIn } = useSelector(
+    (state: RootState) => state?.auth
+  );
   const { data, refetch, isLoading, isFetching } = useGetAllDevlinksQuery(
     { userId },
     { skip: !userId }
@@ -29,6 +32,7 @@ const LinksPage: FC<LinksPageProps> = ({ ...props }) => {
   // State to store updated links
   const [updatedLinks, setUpdatedLinks] = useState<LinkCartTypes[]>([]);
   const [validationErrors, setValidationErrors] = useState<boolean[]>([]);
+  const router = useRouter();
 
   // Handle link updates (platform and URL)
   const handleLinkUpdate = (
@@ -64,6 +68,7 @@ const LinksPage: FC<LinksPageProps> = ({ ...props }) => {
       const isReverted =
         url === previousState?.url && priority === previousState?.priority;
 
+      console.log("Inside Priority", priority);
       if (isReverted) {
         // If reverted, remove the entry from updatedLinks
         if (existingEntryIndex !== -1) {
@@ -135,72 +140,76 @@ const LinksPage: FC<LinksPageProps> = ({ ...props }) => {
     return <LinksPageSkeleton />;
   }
 
-  console.log("Updated Links", updatedLinks);
-
-  console.log("Data", data);
-
   const isDisabled =
     updatedLinks.length === 0 ||
     validationErrors.some((error) => error) ||
     isLoading ||
     isFetching;
 
-  return (
-    <Grid
-      templateColumns={{ base: "1fr", lg: "repeat(5, 1fr)" }}
-      gap={2}
-      {...props}
-      px={{ base: "1rem", md: "6.25rem" }}
-    >
-      <GridItem
-        colSpan={{ base: 1, lg: 2 }}
-        order={{ base: 2, lg: 1 }}
-        w="100%"
-        h="full"
-      >
-        {/* Left Part Content */}
-        <LeftSection isLoading={isLoading || isFetching} data={data} />
-      </GridItem>
-      <GridItem
-        colSpan={{ base: 1, lg: 3 }}
-        order={{ base: 1, lg: 2 }}
-        w="100%"
-        h="full"
-      >
-        <OverView data={linkOverView} />
-        <LinkModal refetch={refetch} data={data}>
-          <AddButton>Add new link</AddButton>
-        </LinkModal>
+  useEffect(() => {
+    if (!loggedIn) {
+      return router.push("/login");
+    }
+  }, [loggedIn]);
 
-        <Box w="full" minH="300px">
-          {data?.dev_links?.map((item: LinkCartTypes, i: number) => (
-            <LinkCart
-              handleLinkUpdate={(platform, url, priority) =>
-                handleLinkUpdate(i, platform, url, item?.documentId, priority)
-              }
-              platform={item?.platform}
-              key={i}
-              index={i}
-              link={item?.url}
-              documentId={item?.documentId}
-              refetch={refetch}
-              hasError={validationErrors[i]}
-              priority={item?.priority}
-            />
-          ))}
-        </Box>
-        <FlexBox justifyContent="flex-end">
-          <BgButton
-            onClick={handleSave}
-            isLoading={isLoading || isFetching}
-            isDisabled={isDisabled}
-            minW="150px"
-          >
-            Save
-          </BgButton>
-        </FlexBox>
-      </GridItem>
-    </Grid>
+  return (
+    <Box pb="3rem">
+      <Grid
+        templateColumns={{ base: "1fr", lg: "repeat(5, 1fr)" }}
+        gap={2}
+        {...props}
+        px={{ base: "1rem", md: "6.25rem" }}
+      >
+        <GridItem
+          colSpan={{ base: 1, lg: 2 }}
+          order={{ base: 2, lg: 1 }}
+          w="100%"
+          h="full"
+        >
+          {/* Left Part Content */}
+          <LeftSection isLoading={isLoading || isFetching} data={data} />
+        </GridItem>
+        <GridItem
+          colSpan={{ base: 1, lg: 3 }}
+          order={{ base: 1, lg: 2 }}
+          w="100%"
+          h="full"
+        >
+          <OverView data={linkOverView} />
+          <LinkModal refetch={refetch} data={data}>
+            <AddButton>Add new link</AddButton>
+          </LinkModal>
+
+          <Box w="full" minH="300px">
+            {data?.dev_links?.map((item: LinkCartTypes, i: number) => (
+              <LinkCart
+                handleLinkUpdate={(platform, url, priority) =>
+                  handleLinkUpdate(i, platform, url, item?.documentId, priority)
+                }
+                platform={item?.platform}
+                key={i}
+                index={i}
+                link={item?.url}
+                documentId={item?.documentId}
+                refetch={refetch}
+                hasError={validationErrors[i]}
+                priority={item?.priority}
+              />
+            ))}
+          </Box>
+          <FlexBox justifyContent="flex-end">
+            <BgButton
+              onClick={handleSave}
+              isLoading={isLoading || isFetching}
+              isDisabled={isDisabled}
+              minW="150px"
+            >
+              Save
+            </BgButton>
+          </FlexBox>
+        </GridItem>
+      </Grid>
+    </Box>
   );
 };
 

@@ -10,14 +10,34 @@ import { LinkCartTypes } from "@/lib/types/platformCartType";
 import { RootState } from "@/store";
 import { useGetAllDevlinksQuery } from "@/store/services/devlinksApi";
 import { Box, Flex } from "@chakra-ui/react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 
 const PreviewPage = () => {
-  const { userId } = useSelector((state: RootState) => state?.auth);
+  const { loggedIn } = useSelector((state: RootState) => state?.auth);
+  const [copied, setCopied] = useState(false);
+  const FRONTEND_BASE_URL = process.env.NEXT_PUBLIC_FRONTEND_URL;
+
+  const { id } = useParams();
+  const lastHyphenIndex = id.lastIndexOf("-");
+  const userId = id.slice(lastHyphenIndex + 1);
+  const documentId = id.slice(0, lastHyphenIndex);
+
   const { data } = useGetAllDevlinksQuery({ userId }, { skip: !userId });
 
   const linksLength = data?.dev_links?.length > 6 ? true : false;
 
+  const handleCopy = () => {
+    navigator.clipboard.writeText(
+      `${FRONTEND_BASE_URL}/${documentId}-${userId}/preview`
+    );
+    setCopied(true);
+
+    // Reset the "Copied" text after 2 seconds
+    setTimeout(() => setCopied(false), 2000);
+  };
   return (
     <Container p="24px">
       <Flex
@@ -26,18 +46,25 @@ const PreviewPage = () => {
         bg={colors.white}
         borderRadius="12px"
       >
-        <TextButton>Back to Editor</TextButton>
-        <BgButton>Share Link</BgButton>
+        <Link href={"/links"}>
+          <TextButton>
+            {loggedIn ? "Back to Editor" : "Create your own links"}
+          </TextButton>
+        </Link>
+        <BgButton onClick={handleCopy}>
+          {copied ? "Copied!" : "Copy Share Link"}
+        </BgButton>
       </Flex>
       <FlexBox justifyContent="center">
         <PreviewCartConatiner>
           <Box w="200px" h="auto">
             {/* Image Area */}
-            <ProfileImg imgSrc="/user/userOne.jpeg" />
+            <ProfileImg firstName={data?.firstname} imgSrc={data?.image?.url} />
 
             {/* Personal Information Area */}
             <PersonalInfo
-              name={`${data?.firstname} ${data?.lastname}`}
+              firstName={data?.firstname}
+              lastName={data?.lastName}
               email={data?.email}
             />
 

@@ -6,12 +6,11 @@ import { colors } from "@/lib";
 import { login } from "@/store/slices/authSlice";
 import { Alert, AlertIcon, Box, Center } from "@chakra-ui/react";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import ToastMessage from "../toastMsg/ToastMessage";
 
-import { TOKEN_NAME, URL } from "@/lib/config/constants";
+import { URL } from "@/lib/config/constants";
 import { RootState } from "@/store";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -59,9 +58,12 @@ const Login = () => {
 
       const response = await responsePromise;
 
-      Cookies.set(TOKEN_NAME, response?.data?.jwt, { expires: 7 });
       dispatch(
-        login({ userId: response?.data?.user?.id, token: response?.data?.jwt })
+        login({
+          userId: response?.data?.user?.id,
+          token: response?.data?.jwt,
+          documentId: response?.data?.user?.documentId,
+        })
       );
       setLoading(false);
       router.push("/");

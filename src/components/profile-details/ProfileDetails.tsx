@@ -1,21 +1,27 @@
 "use client";
 import { BgButton, OverView, TextInput } from "@/components";
 import LeftSection from "@/components/links-page/components/LeftSection";
+import { colors } from "@/lib";
 import { URL } from "@/lib/config/constants";
 import { formFields, profileOverView } from "@/lib/config/data";
 import { RootState } from "@/store";
 import { useGetAllDevlinksQuery } from "@/store/services/devlinksApi";
-import { Box, Grid, GridItem, GridProps, Stack } from "@chakra-ui/react";
+import { logout } from "@/store/slices/authSlice";
+import { Box, Flex, Grid, GridItem, GridProps, Stack } from "@chakra-ui/react";
 import axios from "axios";
-import { FC, useState } from "react";
-import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
+import { FC, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ErrorMsg from "./components/ErrorMsg";
 import ImageForm from "./components/ImageForm";
 
 type ProfileDetailsProps = GridProps & {};
 
 const ProfileDetails: FC<ProfileDetailsProps> = ({ ...props }) => {
-  const { userId, token } = useSelector((state: RootState) => state?.auth);
+  const { userId, token, loggedIn } = useSelector(
+    (state: RootState) => state?.auth
+  );
+  const dispatch = useDispatch();
   const { data, refetch, isFetching, isLoading } = useGetAllDevlinksQuery(
     { userId },
     { skip: !userId }
@@ -33,6 +39,7 @@ const ProfileDetails: FC<ProfileDetailsProps> = ({ ...props }) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleInputChange = (key: keyof typeof formData, value: string) => {
     setError("");
@@ -142,6 +149,16 @@ const ProfileDetails: FC<ProfileDetailsProps> = ({ ...props }) => {
     }
   };
 
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
+  useEffect(() => {
+    if (!loggedIn) {
+      return router.push("/login");
+    }
+  }, [loggedIn]);
+
   return (
     <Grid
       templateColumns={{ base: "1fr", lg: "repeat(5, 1fr)" }}
@@ -196,7 +213,21 @@ const ProfileDetails: FC<ProfileDetailsProps> = ({ ...props }) => {
             py="24px"
           >
             {error && <ErrorMsg error={error} />}
-            <Box>
+            <Flex gap={4}>
+              <BgButton
+                disabled={loading || isFetching}
+                isLoading={isLoading || isFetching}
+                onClick={handleLogout}
+                bg={colors?.white}
+                border={`2px solid ${colors?.primary}`}
+                color={colors?.primary}
+                _hover={{
+                  bg: colors?.primary,
+                  color: colors?.white,
+                }}
+              >
+                Log Out
+              </BgButton>
               <BgButton
                 disabled={loading || isFetching}
                 isLoading={isLoading || isFetching}
@@ -204,7 +235,7 @@ const ProfileDetails: FC<ProfileDetailsProps> = ({ ...props }) => {
               >
                 Save
               </BgButton>
-            </Box>
+            </Flex>
           </Stack>
         </form>
       </GridItem>

@@ -36,7 +36,7 @@ const ProfileImg: FC<ProfileImgProps> = ({
             w="full"
             h="full"
             objectFit="cover"
-            src={`${BACKEND_URL}/${imgSrc}`}
+            src={imgSrc}
             alt="Profile Image"
           />
         ) : (

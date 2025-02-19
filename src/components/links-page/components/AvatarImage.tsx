@@ -12,7 +12,7 @@ const AvatarImage: FC<AvatarImageProps> = ({ firstName, lastName }) => {
   const initials = `${firstName?.charAt(0) || ""}${lastName?.charAt(0) || ""}`;
 
   return (
-    <Center bg={colors?.lightWhite} w={"full"} h="full" borderRadius="full">
+    <Center bg={colors?.lightPrimary} w={"full"} h="full" borderRadius="full">
       <TextNormal color={colors?.white} fontSize="1.5rem" fontWeight="600">
         {initials}
       </TextNormal>
