@@ -69,7 +69,6 @@ const LinksPage: FC<LinksPageProps> = ({ ...props }) => {
       const isReverted =
         url === previousState?.url && priority === previousState?.priority;
 
-      console.log("Inside Priority", priority);
       if (isReverted) {
         // If reverted, remove the entry from updatedLinks
         if (existingEntryIndex !== -1) {
@@ -123,9 +122,7 @@ const LinksPage: FC<LinksPageProps> = ({ ...props }) => {
       });
 
       // Execute all update requests concurrently
-      const responses = await Promise.all(updatePromises);
-
-      console.log("All updates successful:", responses);
+      await Promise.all(updatePromises);
 
       // Refetch the data to update the UI
       refetch();

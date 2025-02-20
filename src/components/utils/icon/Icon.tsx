@@ -2,20 +2,31 @@
 import { FC } from "react";
 import { BsInstagram } from "react-icons/bs";
 import {
+  FaDiscord,
   FaEnvelope,
   FaFacebookSquare,
   FaGithub,
   FaLinkedin,
+  FaPinterest,
+  FaQuora,
+  FaReddit,
   FaRegUserCircle,
+  FaSnapchat,
+  FaTelegram,
   FaTwitterSquare,
 } from "react-icons/fa";
 import { FaLink } from "react-icons/fa6";
 import { FiArrowRight } from "react-icons/fi";
 import { HiBars2 } from "react-icons/hi2";
-import { IoIosArrowDown, IoLogoYoutube } from "react-icons/io";
+import {
+  IoIosArrowDown,
+  IoLogoYoutube,
+  IoMdHeartDislike,
+} from "react-icons/io";
 import { IoAdd } from "react-icons/io5";
 import { MdOutlineCloudUpload } from "react-icons/md";
 import { PiEyeBold } from "react-icons/pi";
+import { SiTiktok } from "react-icons/si";
 
 export type IconNameOptions =
   | "add"
@@ -32,6 +43,15 @@ export type IconNameOptions =
   | "arrow-right"
   | "bar-two"
   | "down-arrow"
+  | "discord"
+  | "pinterest"
+  | "quora"
+  | "tiktok"
+  | "likee"
+  | "snapchat"
+  | "reddit"
+  | "telegram"
+  | "douyin"
   | "upload";
 
 type IconProps = {
@@ -57,6 +77,15 @@ const icons: { [key in IconNameOptions]: FC<{ size: number; color: string }> } =
     "bar-two": HiBars2,
     "down-arrow": IoIosArrowDown,
     upload: MdOutlineCloudUpload,
+    discord: FaDiscord,
+    pinterest: FaPinterest,
+    quora: FaQuora,
+    tiktok: SiTiktok,
+    likee: IoMdHeartDislike,
+    snapchat: FaSnapchat,
+    reddit: FaReddit,
+    telegram: FaTelegram,
+    douyin: SiTiktok,
   };
 
 const Icon: FC<IconProps> = ({ name, ...props }) => {

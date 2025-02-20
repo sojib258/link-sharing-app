@@ -117,16 +117,14 @@ const LinkModal: FC<LinkModalProps> = ({ children, refetch }) => {
           loading: { title: "Promise pending", description: "Please wait" },
         });
 
-        const responseData = await response;
-        console.log("ResponseData", responseData);
+        await response;
         platFormReset();
         refetch();
       } else {
-        console.log("Else Case");
         setError(`Invalid url for ${platform}, ${url}`);
       }
     } catch (error) {
-      console.log("error", error);
+      console.error("error", error);
     }
   };
 

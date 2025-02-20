@@ -55,7 +55,6 @@ const Register = () => {
           loading: "Trying to register...",
           success: "Registration successfull!",
           error: (error: any) => {
-            console.log("AAAA", error);
             return `${
               error?.response?.data?.error?.message ||
               "Something went wrong! Try again"
@@ -77,7 +76,7 @@ const Register = () => {
         router.push("/links");
       } catch (error: any) {
         setLoading(false);
-        console.log("error", error);
+        console.error("error while register", error);
         if (error?.response?.data?.error?.message) {
           setErrorMsg(error?.response?.data?.error?.message);
         }

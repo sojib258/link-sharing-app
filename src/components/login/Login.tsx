@@ -12,7 +12,7 @@ import ToastMessage from "../toastMsg/ToastMessage";
 
 import { URL } from "@/lib/config/constants";
 import { RootState } from "@/store";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Container from "./Container";
 import GoRegister from "./GoRegister";
@@ -40,7 +40,7 @@ const Login = () => {
     }));
   };
 
-  const handleLogin = async () => {
+  const handleLogin = useCallback(async () => {
     try {
       setLoading(true);
       const responsePromise = axios.post(`${URL}/auth/local`, {
@@ -50,7 +50,7 @@ const Login = () => {
 
       toast.promise(responsePromise, {
         loading: "Trying to login...",
-        success: "Login successfull!",
+        success: "Login successful!",
         error: (error: any) => {
           return `${error?.response?.data?.error?.message}`;
         },
@@ -69,12 +69,12 @@ const Login = () => {
       router.push("/");
     } catch (error: any) {
       setLoading(false);
-      console.log("Error", error);
+      console.error("Error while login", error);
       if (error?.response?.data?.error?.status === 400) {
         setErrorMessage("Invalid Username or Password");
       }
     }
-  };
+  }, [formData, dispatch, router]);
 
   useEffect(() => {
     if (isAuthenticated) {

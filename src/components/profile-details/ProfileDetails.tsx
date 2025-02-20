@@ -33,8 +33,6 @@ const ProfileDetails: FC<ProfileDetailsProps> = ({ ...props }) => {
     email: data?.email || "",
   });
 
-  console.log("DATA", data);
-
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [error, setError] = useState("");
@@ -104,8 +102,6 @@ const ProfileDetails: FC<ProfileDetailsProps> = ({ ...props }) => {
           },
         });
 
-        console.log("ImageUploadResponse", uploadResponse);
-
         if (uploadResponse.status === 201 && uploadResponse.data.length > 0) {
           uploadedImageId = uploadResponse.data[0].id; // Get the uploaded image ID
         } else {
@@ -131,11 +127,8 @@ const ProfileDetails: FC<ProfileDetailsProps> = ({ ...props }) => {
         }
       );
 
-      console.log("updateResponse", updateResponse);
-
       if (updateResponse.status === 200) {
         setError("");
-        console.log("Profile updated successfully!");
         await refetch();
       } else {
         setError("Failed to update user information");
@@ -145,7 +138,6 @@ const ProfileDetails: FC<ProfileDetailsProps> = ({ ...props }) => {
       setError("Error saving profile");
     } finally {
       setLoading(false);
-      console.log("Finally");
     }
   };
 
@@ -160,86 +152,83 @@ const ProfileDetails: FC<ProfileDetailsProps> = ({ ...props }) => {
   }, [loggedIn]);
 
   return (
-    <Grid
-      templateColumns={{ base: "1fr", lg: "repeat(5, 1fr)" }}
-      gap={2}
-      {...props}
-      px={{ base: "1rem", md: "6.25rem" }}
-    >
-      <GridItem
-        colSpan={{ base: 1, lg: 2 }}
-        w="100%"
-        h="full"
-        order={{ base: 2, lg: 1 }}
+    <Box pb="3rem">
+      <Grid
+        templateColumns={{ base: "1fr", lg: "repeat(5, 1fr)" }}
+        gap={2}
+        {...props}
+        px={{ base: "1rem", md: "6.25rem" }}
       >
-        <LeftSection isLoading={isLoading || isFetching} data={data} />
-      </GridItem>
-      <GridItem
-        colSpan={{ base: 1, lg: 3 }}
-        w="100%"
-        order={{ base: 1, lg: 2 }}
-      >
-        <Box mb="3rem">
-          <OverView data={profileOverView} />
-        </Box>
+        <GridItem
+          colSpan={{ base: 1, lg: 2 }}
+          w="100%"
+          h="full"
+          order={{ base: 2, lg: 1 }}
+        >
+          <LeftSection isLoading={isLoading || isFetching} data={data} />
+        </GridItem>
+        <GridItem
+          colSpan={{ base: 1, lg: 3 }}
+          w="100%"
+          order={{ base: 1, lg: 2 }}
+        >
+          <Box mb="3rem">
+            <OverView data={profileOverView} />
+          </Box>
 
-        <form onSubmit={handleSave}>
-          <ImageForm
-            label="Profile Picture"
-            imagePreview={imagePreview}
-            handleImageChange={handleImageChange}
-            defaultImage={data?.image?.url}
-          />
-          {formFields?.map((item, i) => (
-            <TextInput
-              key={i}
-              fieldKey={item.fieldKey}
-              name={item.name}
-              type={item.type}
-              value={formData[item.fieldKey as keyof typeof formData]}
-              handleChange={(key, value) =>
-                handleInputChange(key as keyof typeof formData, value)
-              }
-              label={item?.label}
-              isRequired={item?.isRequired}
-              placeholder={data?.[item.fieldKey] || item?.placeholder}
-              mb="16px"
+          <form onSubmit={handleSave}>
+            <ImageForm
+              label="Profile Picture"
+              imagePreview={imagePreview}
+              handleImageChange={handleImageChange}
+              defaultImage={data?.image?.url}
             />
-          ))}
-          <Stack
-            alignItems="flex-end"
-            mt="2rem"
-            // borderTop={`1px solid ${colors.borderColor}`}
-            py="24px"
-          >
-            {error && <ErrorMsg error={error} />}
-            <Flex gap={4}>
-              <BgButton
-                disabled={loading || isFetching}
-                isLoading={isLoading || isFetching}
-                onClick={handleLogout}
-                bg={colors?.white}
-                border={`2px solid ${colors?.primary}`}
-                color={colors?.primary}
-                _hover={{
-                  bg: colors?.primary,
-                  color: colors?.white,
-                }}
-              >
-                Log Out
-              </BgButton>
-              <BgButton
-                disabled={loading || isFetching}
-                isLoading={isLoading || isFetching}
-                type="submit"
-              >
-                Save
-              </BgButton>
-            </Flex>
-          </Stack>
-        </form>
-      </GridItem>
-    </Grid>
+            {formFields?.map((item, i) => (
+              <TextInput
+                key={i}
+                fieldKey={item.fieldKey}
+                name={item.name}
+                type={item.type}
+                value={formData[item.fieldKey as keyof typeof formData]}
+                handleChange={(key, value) =>
+                  handleInputChange(key as keyof typeof formData, value)
+                }
+                label={item?.label}
+                isRequired={item?.isRequired}
+                placeholder={data?.[item.fieldKey] || item?.placeholder}
+                mb="16px"
+              />
+            ))}
+            <Stack alignItems="flex-end" mt="2rem" py="24px">
+              {error && <ErrorMsg error={error} />}
+              <Flex gap={4}>
+                <BgButton
+                  disabled={loading || isFetching}
+                  isLoading={isLoading || isFetching}
+                  onClick={handleLogout}
+                  bg={colors?.white}
+                  border={`2px solid ${colors?.primary}`}
+                  color={colors?.primary}
+                  _hover={{
+                    bg: colors?.primary,
+                    color: colors?.white,
+                  }}
+                >
+                  Log Out
+                </BgButton>
+                <BgButton
+                  disabled={loading || isFetching}
+                  isLoading={isLoading || isFetching}
+                  type="submit"
+                >
+                  Save
+                </BgButton>
+              </Flex>
+            </Stack>
+          </form>
+        </GridItem>
+      </Grid>
+    </Box>
   );
 };
 

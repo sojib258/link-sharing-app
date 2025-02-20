@@ -57,7 +57,6 @@ const ImageForm: FC<ImageFormProps> = ({
     }
   };
 
-  console.log("displayImage", displayImage);
   return (
     <>
       <FormControl

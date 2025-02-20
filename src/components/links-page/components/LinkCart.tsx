@@ -80,8 +80,7 @@ const LinkCart: FC<LinkCartProps> = ({
         loading: { title: "Promise pending", description: "Please wait" },
       });
 
-      const responseData = await response;
-      console.log("ResponseData", responseData);
+      await response;
       // platFormReset();
       refetch();
     } catch (error) {

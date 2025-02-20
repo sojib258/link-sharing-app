@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FlexBox } from "@/components";
+import { PlaceholderButtons } from "@/components/links-page/components";
 import PersonalInfo from "@/components/links-page/components/PersonalInfo";
 import PlatformButton from "@/components/links-page/components/PlatformButton";
 import ProfileImg from "@/components/links-page/components/ProfileImg";
@@ -35,9 +36,15 @@ const PreviewCart: FC<PreviewCartProps> = ({ data, ...props }) => {
           height="265px"
           overflowY={linksLength ? "scroll" : "hidden"}
         >
-          {data?.dev_links?.map((item: LinkCartTypes, i: number) => (
-            <PlatformButton key={i} dev_links={item} />
-          ))}
+          {data?.dev_links?.length > 0 ? (
+            [...data.dev_links] // Create a shallow copy to avoid mutating the original array
+              .sort(
+                (a: LinkCartTypes, b: LinkCartTypes) => b.priority - a.priority
+              ) // Sort by priority (higher first)
+              .map((item, i) => <PlatformButton key={i} dev_links={item} />)
+          ) : (
+            <PlaceholderButtons />
+          )}
         </FlexBox>
       </Box>
     </PreviewCartConatiner>
