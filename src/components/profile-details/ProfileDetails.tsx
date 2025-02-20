@@ -79,7 +79,7 @@ const ProfileDetails: FC<ProfileDetailsProps> = ({ ...props }) => {
       };
 
       let uploadedImageId = null; // Store new image ID (if any)
-      let previousImageId = data?.image?.id; // Store previous image ID (if any)
+      const previousImageId = data?.image?.id; // Store previous image ID (if any)
 
       // Step 1: Handle image upload if a new image is selected
       if (selectedImage) {

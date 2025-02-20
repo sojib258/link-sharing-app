@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import {
   AddButton,
@@ -136,10 +137,6 @@ const LinksPage: FC<LinksPageProps> = ({ ...props }) => {
     }
   };
 
-  if (isLoading || isFetching) {
-    return <LinksPageSkeleton />;
-  }
-
   const isDisabled =
     updatedLinks.length === 0 ||
     validationErrors.some((error) => error) ||
@@ -148,9 +145,13 @@ const LinksPage: FC<LinksPageProps> = ({ ...props }) => {
 
   useEffect(() => {
     if (!loggedIn) {
-      return router.push("/login");
+      router.push("/login");
     }
-  }, [loggedIn]);
+  }, [loggedIn, router]);
+
+  if (isLoading || isFetching) {
+    return <LinksPageSkeleton />;
+  }
 
   return (
     <Box pb="3rem">

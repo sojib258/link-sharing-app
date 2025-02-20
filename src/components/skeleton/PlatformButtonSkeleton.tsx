@@ -1,13 +1,13 @@
-import { Skeleton, Stack } from "@chakra-ui/react";
+import { Skeleton, Stack, StackProps } from "@chakra-ui/react";
 import { FC } from "react";
 
-type PlatformButtonSkeletonProps = {};
+type PlatformButtonSkeletonProps = StackProps & {};
 
 const PlatformButtonSkeleton: FC<PlatformButtonSkeletonProps> = ({
   ...props
 }) => {
   return (
-    <Stack w="full" h="200px">
+    <Stack w="full" h="200px" {...props}>
       <Skeleton mb="12px" w="200px" height="28px" />
       <Skeleton mb="12px" w="200px" height="28px" />
       <Skeleton mb="12px" w="200px" height="28px" />

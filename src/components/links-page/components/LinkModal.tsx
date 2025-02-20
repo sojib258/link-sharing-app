@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   BgButton,
   LinkInput,
@@ -30,7 +31,7 @@ type LinkModalProps = {
   refetch: () => void;
 };
 
-const LinkModal: FC<LinkModalProps> = ({ children, data, refetch }) => {
+const LinkModal: FC<LinkModalProps> = ({ children, refetch }) => {
   const { userId, token } = useSelector((state: RootState) => state?.auth);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef<HTMLDivElement>(null);
@@ -105,7 +106,7 @@ const LinkModal: FC<LinkModalProps> = ({ children, data, refetch }) => {
           }
         );
 
-        let capitalizedStr =
+        const capitalizedStr =
           platform.charAt(0).toUpperCase() + platform.slice(1);
         toast.promise(response, {
           success: {

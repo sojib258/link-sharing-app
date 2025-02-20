@@ -16,6 +16,7 @@ const Container: FC<ContainerProps> = ({ children, ...props }) => {
       py="3rem"
       boxShadow={`0px 0px 8px -4px ${colors.primary}`}
       borderRadius="1rem"
+      {...props}
     >
       {children}
     </Center>

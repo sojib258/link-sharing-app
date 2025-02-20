@@ -8,7 +8,7 @@ type GoRegisterProps = CenterProps & {};
 
 const GoRegister: FC<GoRegisterProps> = ({ ...props }) => {
   return (
-    <Center mt={4} gap={4} alignItems="center">
+    <Center mt={4} gap={4} alignItems="center" {...props}>
       <TextNormal>Don&apos;t have an account?</TextNormal>
       <Link href="/register">
         <TextButton

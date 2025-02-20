@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { TextNormal } from "@/components/utils";
 import Icon from "@/components/utils/icon/Icon";
 import { colors } from "@/lib";
@@ -52,11 +53,10 @@ const SelectBox: FC<SelectBoxProps> = ({
   handleUpdatePlatform,
   defaultValue,
 }) => {
-  const { isLoading, data } = useGetAllPlatformQuery(undefined);
+  const { data } = useGetAllPlatformQuery(undefined);
 
   // Handle value change and get the selected platform
   const handleChange = (selectedOption: any) => {
-    console.log("Se", selectedOption);
     if (selectedOption) {
       handleUpdatePlatform(selectedOption);
     }

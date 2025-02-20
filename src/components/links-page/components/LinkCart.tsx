@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   FlexBox,
   Icon,
@@ -83,7 +84,9 @@ const LinkCart: FC<LinkCartProps> = ({
       console.log("ResponseData", responseData);
       // platFormReset();
       refetch();
-    } catch (error) {}
+    } catch (error) {
+      console.error("Error occurd during deleting link", error);
+    }
   };
 
   return (

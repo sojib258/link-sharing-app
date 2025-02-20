@@ -4,8 +4,6 @@ import { Flex, FlexProps, Image } from "@chakra-ui/react";
 import { FC } from "react";
 import AvatarImage from "./AvatarImage";
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
-
 type ProfileImgProps = FlexProps & {
   imgSrc: string;
   firstName: string;
