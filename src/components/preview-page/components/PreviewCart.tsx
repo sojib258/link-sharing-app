@@ -25,7 +25,7 @@ const PreviewCart: FC<PreviewCartProps> = ({ data, ...props }) => {
         {/* Personal Information Area */}
         <PersonalInfo
           firstName={data?.firstname}
-          lastName={data?.lastName}
+          lastName={data?.lastname}
           email={data?.email}
         />
 

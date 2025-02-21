@@ -22,7 +22,7 @@ const LeftSection: FC<LeftSectionProps> = ({ data, isLoading }) => {
         w="190px"
         h="auto"
         position="absolute"
-        top="100px"
+        top={{ base: "110px", xl: "80px" }}
         left="50%"
         transform={"translateX(-50%)"}
       >
@@ -50,7 +50,7 @@ const LeftSection: FC<LeftSectionProps> = ({ data, isLoading }) => {
           <FlexBox
             flexDir="column"
             alignItems="center"
-            height="265px"
+            height={{ base: "250px", xl: "305px" }}
             overflowY={linksLength ? "scroll" : "hidden"}
           >
             {data?.dev_links?.length > 0 ? (

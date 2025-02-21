@@ -6,4 +6,4 @@ export const padding = {
 export const URL =
   process.env.NEXT_PUBLIC_BACKEND || "http://localhost:1337/api";
 
-export const TOKEN_NAME = "AUTH_TOKEN";
+export const TOKEN_NAME = "AUTH_TOKEN_O";

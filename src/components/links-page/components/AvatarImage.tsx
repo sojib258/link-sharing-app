@@ -13,7 +13,7 @@ const AvatarImage: FC<AvatarImageProps> = ({ firstName, lastName }) => {
 
   return (
     <Center bg={colors?.lightPrimary} w={"full"} h="full" borderRadius="full">
-      <TextNormal color={colors?.white} fontSize="1.5rem" fontWeight="600">
+      <TextNormal color={colors?.black} fontSize="1.5rem" fontWeight="600">
         {initials}
       </TextNormal>
     </Center>
