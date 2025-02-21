@@ -1,10 +1,25 @@
-import { Flex, FlexProps, Image } from "@chakra-ui/react";
-import Link from "next/link";
+"use client";
+import { RootState } from "@/store";
+import { Box, Flex, FlexProps, Image } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
 import { FC } from "react";
+import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 type LogoPartProps = FlexProps & {};
 
 const LogoPart: FC<LogoPartProps> = ({ ...props }) => {
+  const { loggedIn } = useSelector((state: RootState) => state?.auth);
+  const router = useRouter();
+
+  const handleLinks = (link: string) => {
+    if (!loggedIn) {
+      toast.error("You are not logged in!");
+    } else {
+      router.push(link);
+    }
+  };
+
   return (
     <Flex
       w={{ base: "40px", md: "200px" }}
@@ -12,7 +27,7 @@ const LogoPart: FC<LogoPartProps> = ({ ...props }) => {
       alignItems="center"
       {...props}
     >
-      <Link href="/">
+      <Box onClick={() => handleLinks("/")} cursor="pointer" userSelect="none">
         <Image
           display={{ base: "none", md: "block" }}
           w="auto"
@@ -20,9 +35,6 @@ const LogoPart: FC<LogoPartProps> = ({ ...props }) => {
           src="/logo/logoDesktop.jpg"
           alt="Logo Image"
         />
-      </Link>
-
-      <Link href="/">
         <Image
           display={{ base: "block", md: "none" }}
           w="full"
@@ -30,7 +42,7 @@ const LogoPart: FC<LogoPartProps> = ({ ...props }) => {
           src="/logo/logoPhone.jpg"
           alt="Logo Image"
         />
-      </Link>
+      </Box>
     </Flex>
   );
 };

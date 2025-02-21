@@ -110,7 +110,7 @@ const Register = () => {
 
   return (
     <>
-      <Center px={{ base: "1rem", md: "6.25rem" }}>
+      <Center px={{ base: "1rem", md: "6.25rem" }} pb="4rem">
         <Container>
           <TextNormal fontSize="2.4rem" fontWeight="600" mb="2rem">
             Sign Up

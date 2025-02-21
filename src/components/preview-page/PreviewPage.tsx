@@ -1,16 +1,16 @@
 "use client";
-import { BgButton, FlexBox, TextButton, TextNormal } from "@/components";
+import { BgButton, BoxSkeleton, FlexBox, TextButton } from "@/components";
 import { colors } from "@/lib";
 import { RootState } from "@/store";
 import { useGetAllDevlinksQuery } from "@/store/services/devlinksApi";
-import { Center, Flex } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import Container from "./components/Container";
+import InvalidBox from "./components/InvalidBox";
 import PreviewCart from "./components/PreviewCart";
-import PreviewCartConatiner from "./components/PreviewCartContainer";
 import QRCodeComponent from "./components/QrCodeComponent";
 
 const PreviewPage = () => {
@@ -24,7 +24,10 @@ const PreviewPage = () => {
   const documentId = id.slice(0, lastHyphenIndex);
   const link = `${FRONTEND_BASE_URL}/${documentId}-${userId}/preview`;
 
-  const { data } = useGetAllDevlinksQuery({ userId }, { skip: !userId });
+  const { data, isLoading, isFetching } = useGetAllDevlinksQuery(
+    { userId },
+    { skip: !userId }
+  );
 
   const handleCopy = () => {
     navigator.clipboard.writeText(link);
@@ -32,7 +35,7 @@ const PreviewPage = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  console.log("D", data);
+  const loaddingState = isLoading || isFetching;
   return (
     <Container p="24px">
       <Flex
@@ -52,7 +55,9 @@ const PreviewPage = () => {
           {copied ? "Copied!" : "Copy Share Link"}
         </BgButton>
       </Flex>
-      {data ? (
+      {loaddingState ? (
+        <BoxSkeleton />
+      ) : data ? (
         <FlexBox
           justifyContent="center"
           gap={4}
@@ -68,13 +73,7 @@ const PreviewPage = () => {
           <PreviewCart order={{ base: "0", md: "1" }} data={data} />
         </FlexBox>
       ) : (
-        <PreviewCartConatiner mx="auto">
-          <Center w="200px" h="300px">
-            <TextNormal textAlign="center">
-              Looks like invalid url! <br /> No Data Found!
-            </TextNormal>
-          </Center>
-        </PreviewCartConatiner>
+        <InvalidBox />
       )}
     </Container>
   );

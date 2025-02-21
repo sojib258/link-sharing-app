@@ -13,7 +13,13 @@ type PreviewProps = FlexProps & {};
 const Preview: FC<PreviewProps> = ({ ...props }) => {
   const { documentId, userId } = useSelector((state: RootState) => state?.auth);
   return (
-    <Flex w="100%" justifyContent="flex-end" alignItems="center" {...props}>
+    <Flex
+      w="100%"
+      justifyContent="flex-end"
+      alignItems="center"
+      userSelect="none"
+      {...props}
+    >
       <Link href={`/${documentId}-${userId}/preview`}>
         <TextButton
           display={{ base: "none", md: "block" }}
@@ -35,7 +41,7 @@ const Preview: FC<PreviewProps> = ({ ...props }) => {
         alignItems="center"
         justifyContent="center"
       >
-        <Link href={`/${documentId}/preview`}>
+        <Link href={`/${documentId}-${userId}/preview`}>
           <PiEyeBold color={colors.primary} fontSize="1.2rem" />
         </Link>
       </Box>

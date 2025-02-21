@@ -1,3 +1,4 @@
+export { default as BoxSkeleton } from "./BoxSkeleton";
 export { default as LinkCardSkeleton } from "./LinkCardSkeleton";
 export { default as LinksPageSkeleton } from "./LinksPageSkeleton";
 export { default as OverviewSkeleton } from "./OverviewSkeleton";
